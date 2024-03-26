@@ -28,13 +28,12 @@ If necessary, please check further details from our paper "MAProtoNet: A Multi-s
 
 ## Directory Structure {#Structure}
 The directories of this repository are established as below:
-.
-├── figures
-│ └── framework.png
-├── src
-│ ├── main.py
-│ └── code.py
-└── readme.md
+- src
+  - tumor_cls.py
+- figures
+- data
+- readme.md
+
 requirements.txt: Environment configurations
 
 
