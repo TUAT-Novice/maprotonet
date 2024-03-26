@@ -3,4 +3,4 @@ The official implementation of the interpretable MRI model MAProtoNet. Please ch
 Magnetic Resonance Imaging Brain Tumor Classification."
 
 
-![示例图片](example.jpg)
+![MAProtoNet](figures/framework.png)
