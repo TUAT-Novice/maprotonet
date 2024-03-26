@@ -1,7 +1,10 @@
 # MAProtoNet
 Welcome to the official implementation of MAProtoNet (Multi-scale Attentive Prototypical Network).
 
-MAProtoNet is an interpretable 3D MRI model for brain tumor, training on the public BraTS datasets. We extend the XProtoNet and MProtoNet by introducing the novel quadruplet attention layers as well as the multi-scale module.
+MAProtoNet is an interpretable 3D MRI model for brain tumor, training on the public BraTS datasets. We extend the XProtoNet and MProtoNet by introducing the novel 
+<!-- quadruplet attention layers -->
+as well as the 
+<!-- multi-scale module. -->
 
 Please check further details from our paper "MAProtoNet: A Multi-scale Attentive Interpretable Prototypical Network for 3D Magnetic Resonance Imaging Brain Tumor Classification."
 
