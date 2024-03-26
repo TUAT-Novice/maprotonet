@@ -42,10 +42,16 @@ requirements.txt: Environment configurations
 
 
 ## Results {#Results}
-| 表头1 | 表头2 | 表头3 |
-| ------|------|------|
-| 内容1 | 内容2 | 内容3 |
-| 内容4 | 内容5 | 内容6 |
+| Methods           | BAC | AP | IDS |
+|-------------------|-------|------|------|
+| CNN               | 内容1 | 内容2 | 内容3 |
+| ProtoPNet         | 内容4 | 内容5 | 内容6 |
+| XProtoNet         | 内容4 | 内容5 | 内容6 |
+| MProtoNet         | 内容4 | 内容5 | 内容6 |
+| MAProtoNet (ours) | 内容4 | 内容5 | 内容6 |
+
+
+
 
 
 
