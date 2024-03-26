@@ -2,7 +2,7 @@
 This is the official implementation of the interpretable MRI model MAProtoNet. Please check details in paper "MAProtoNet: A Multi-scale Attentive Interpretable Prototypical Network for 3D Magnetic Resonance Imaging Brain Tumor Classification."
 
 
-<img src="figures/framework.png" alt="图片描述" width="100" height="100">
+<img src="figures/framework.png" alt="MAProtoNet" width="33.4" height="16.35">
 
 
 ## Acknowledgment
