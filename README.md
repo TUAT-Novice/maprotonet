@@ -50,7 +50,7 @@ requirements.txt: Environment configurations
 | XProtoNet         | 内容4 | 内容5 | 内容6 |
 | MProtoNet         | 内容4 | 内容5 | 内容6 |
 | MAProtoNet (ours) | 内容4 | 内容5 | 内容6 |
-<\div>
+</div>
 
 
 
