@@ -42,6 +42,7 @@ requirements.txt: Environment configurations
 
 
 ## Results {#Results}
+<div align="center">
 | Methods           | BAC | AP | IDS |
 |-------------------|-------|------|------|
 | CNN               | 内容1 | 内容2 | 内容3 |
@@ -49,7 +50,7 @@ requirements.txt: Environment configurations
 | XProtoNet         | 内容4 | 内容5 | 内容6 |
 | MProtoNet         | 内容4 | 内容5 | 内容6 |
 | MAProtoNet (ours) | 内容4 | 内容5 | 内容6 |
-
+<\div>
 
 
 
