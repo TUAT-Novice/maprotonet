@@ -28,7 +28,7 @@ If necessary, please check further details from our paper "MAProtoNet: A Multi-s
 
 
 
-## Directory Structure {#Structure}
+## Directory Structure <a id="Structure"></a>
 The directories of this repository are established as below:
 * **src/** source code for our MAProtoNet
   * tumor_cls.py
@@ -56,5 +56,5 @@ requirements.txt: Environment configurations
 
 
 
-## Acknowledgment  {#Acknowledgment}
+## Acknowledgment <a id="Acknowledgment"></a>
 This repository is established upon the source code of MProtoNet, from https://github.com/aywi/mprotonet developed by Yuanyuan Wei, Roger Tam and Xiaoying Tang. We appreciate their work.
