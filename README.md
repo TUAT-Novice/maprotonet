@@ -5,5 +5,5 @@ This is the official implementation of the interpretable MRI model MAProtoNet. P
 ![MAProtoNet](figures/framework.png)
 
 
-# Acknowledgment
+## Acknowledgment
 This repository is developed on the source code from MProtoNet, from https://github.com/aywi/mprotonet developed by Yuanyuan Wei, Roger Tam and Xiaoying Tang.
