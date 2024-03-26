@@ -17,7 +17,7 @@ Please check the following sections for more details:
 * Environment Configurations
 * Datasets
 * Experiments
-* [#Results](Results)
+* [Results](#Results)
 * [Acknowledgment](Acknowledgmen)
 * Citation
 
