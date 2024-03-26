@@ -28,8 +28,13 @@ If necessary, please check further details from our paper "MAProtoNet: A Multi-s
 
 ## Directory Structure {#Structure}
 The directories of this repository are established as below:
-<span style="background-color: #CCCCCC;"> data </span> : 6666
-
+.
+├── figures
+│ └── framework.png
+├── src
+│ ├── main.py
+│ └── code.py
+└── readme.md
 requirements.txt: Environment configurations
 
 
