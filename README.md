@@ -13,6 +13,14 @@ Please check further details from our paper "MAProtoNet: A Multi-scale Attentive
 
 <img src="figures/framework.png" alt="Framework of MAProtoNet" width="901.8" height="441.45">
 
+Please check the following sections for more details.
+
+The directories of this repository are established as below:
+data:
+requirements.txt: Environment configurations
+
+
+
 
 ## Results
 | 表头1 | 表头2 | 表头3 |
