@@ -13,19 +13,13 @@ as well as the
 
 Please check the following sections for more details:
 
-[Directory Structure](#Structure)
-
-Environment Configurations
-
-Datasets
-
-Experiments
-
-[Results](#Results)
-
-[Acknowledgment](Acknowledgmen)
-
-Citation
+* [Directory Structure](#Structure)
+* Environment Configurations
+* Datasets
+* Experiments
+* [Results](#Results)
+* [Acknowledgment](Acknowledgmen)
+* Citation
 
 If necessary, please check further details from our paper "MAProtoNet: A Multi-scale Attentive Interpretable Prototypical Network for 3D Magnetic Resonance Imaging Brain Tumor Classification", or contact us through email: s237857s@st.go.tuat.ac.jp
 
