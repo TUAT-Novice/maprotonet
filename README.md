@@ -1,5 +1,5 @@
 # MAProtoNet
-This is the official implementation of the interpretable MRI model MAProtoNet. Please check details in paper "MAProtoNet: A Multi-scale Attentive Interpretable Prototypical Network for 3D Magnetic Resonance Imaging Brain Tumor Classification."
+Welcome to the official implementation of the interpretable 3D MRI model MAProtoNet. Please check further details from our paper "MAProtoNet: A Multi-scale Attentive Interpretable Prototypical Network for 3D Magnetic Resonance Imaging Brain Tumor Classification."
 
 [[Paper]]()
 [[Code]](https://github.com/TUAT-Novice/maprotonet)
