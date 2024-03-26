@@ -28,7 +28,7 @@ If necessary, please check further details from our paper "MAProtoNet: A Multi-s
 
 ## Directory Structure {#Structure}
 The directories of this repository are established as below:
-* [666] src
+* **666** src
   * tumor_cls.py
 * figures
 * data
