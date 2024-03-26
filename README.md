@@ -24,18 +24,26 @@ Please check the following sections for more details:
 If necessary, please check further details from our paper "MAProtoNet: A Multi-scale Attentive Interpretable Prototypical Network for 3D Magnetic Resonance Imaging Brain Tumor Classification", or contact us through email: s237857s@st.go.tuat.ac.jp
 
 
-The directories of this repository are established as below:
-data:
-requirements.txt: Environment configurations
 
 
 ## Directory Structure {#Structure}
+The directories of this repository are established as below:
+<span style="background-color: #CCCCCC;"> data </span> : 6666
+
+requirements.txt: Environment configurations
+
+
+
+
+
 
 ## Results {#Results}
 | 表头1 | 表头2 | 表头3 |
 | ------|------|------|
 | 内容1 | 内容2 | 内容3 |
 | 内容4 | 内容5 | 内容6 |
+
+
 
 
 ## Acknowledgment  {#Acknowledgment}
