@@ -35,7 +35,13 @@ The directories of this repository are established as below:
 * **data/** code for BraTS datasets preparing
 * **figures/** images for this repository
 * **requirements.txt** environment configurations
-* **readme.md** 
+* **readme.md**
+
+- data
+  - data1.py
+  - data2.py
+- model
+  - cnn.py
 
 ## Environment Configurations <a id="Environment"></a>
 
