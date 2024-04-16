@@ -10,7 +10,7 @@ MAProtoNet is an interpretable 3D MRI model for brain tumor, training on the pub
 
 Please check the following sections for more details:
 
-
+| --- |
 | [Directory Structure](#Structure) |
 | [Environment Configurations](#Environment) |
 | [Datasets](#Datasets) |
