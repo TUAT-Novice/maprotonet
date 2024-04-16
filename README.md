@@ -36,14 +36,6 @@ The directories of this repository are established as below:
 * **requirements.txt** (environment configurations)
 * **readme.md**
 
-Source code for data pre-processing:
-
-- data
-  - data1.py
-  - data2.py
-- model
-  - cnn.py
-
 
 ## Environment Configurations <a id="Environment"></a>
 
