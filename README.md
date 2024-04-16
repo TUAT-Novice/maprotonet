@@ -27,14 +27,14 @@ If necessary, please check further details from our paper "MAProtoNet: A Multi-s
 
 ## Directory Structure <a id="Structure"></a>
 The directories of this repository are established as below:
-* **src/** source code for our MAProtoNet
-  * tumor_cls.py
-* **figures/** 
-* **data/** code for BraTS pre-processing 
-* **readme.md**
-* **requirements.txt** Environment configurations
-
-
+* **tumor_cls.py** main function for running our experiments
+* **train.py** code for training and evaluation
+* **models/** code for our MAProtoNet model
+* **utils/** code for utility functions
+* **data/** code for BraTS datasets preparing
+* **figures/** images for this repository
+* **requirements.txt** environment configurations
+* **readme.md** 
 
 ## Environment Configurations <a id="Environment"></a>
 
