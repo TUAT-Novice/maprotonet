@@ -29,6 +29,7 @@ If necessary, please check further details from our paper "MAProtoNet: A Multi-s
 The directories of this repository are established as below:
 * **tumor_cls.py** (main function for running our experiments)
 * **train.py**  (code for training and evaluation)
+* **run.sh** (shell to run the experiments)
 * **models/**  (code for our MAProtoNet model)
 * **utils/**  (code for utility functions)
 * **data/**  (code for BraTS datasets preparing)
