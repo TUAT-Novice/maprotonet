@@ -53,11 +53,11 @@ We employ [BraTS2018](https://www.med.upenn.edu/sbia/brats2018/), [BraTS2019](ht
 ## Results <a id="Results"></a>
 | Methods           | BAC | AP | IDS |
 |:-----------------:|:-----:|:----:|:-----:|
-| CNN               | 内容1 | 内容2 | 内容3 |
-| ProtoPNet         | 内容4 | 内容5 | 内容6 |
-| XProtoNet         | 内容4 | 内容5 | 内容6 |
-| MProtoNet         | 内容4 | 内容5 | 内容6 |
-| MAProtoNet (ours) | 内容4 | 内容5 | 内容6 |
+| CNN               | 85.5 | 10.7 | 13.8 |
+| ProtoPNet         | 84.3 | 11.8 | 24.2 |
+| XProtoNet         | 84.7 | 16.9 | 16.3 |
+| MProtoNet         | 85.8 | 81.2 | 6.2 |
+| MAProtoNet (ours) | 86.7 | 85.8 | 6.2 |
 
 
 
