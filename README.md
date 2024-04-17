@@ -76,4 +76,21 @@ This repository is established upon the source code of MProtoNet, from https://g
 
 
 ## Citation <a id="Citation"></a>
+If you found this repository useful, please consider citing:
+
+[Jie Maoc, Zhe Sunc,d,e, Chao Lib, Qibin Zhaob,a, Toshihisa Tanakaa](https://arxiv.org/abs/2404.08917)
+
+@article{
+binghua_maprotonet_2024,
+author = {Binghua, Li and Jie, Mao and Zhe, Sun and Chao, Li and Qibin, Zhao and Toshihisa, Tanaka},
+title = {{MAP}roto{N}et: A Multi-scale Attentive Interpretable Prototypical Part Network for 3{D} Magnetic Resonance Imaging Brain Tumor Classificati},
+journal = {arXiv preprint arXiv: 2404.08917},
+year = {2024},
+month = {Apr},
+url = {http://arxiv.org/abs/2404.08917},
+publisher = {{arXiv}},
+}
+
+
+
 
