@@ -57,10 +57,10 @@ We employ [BraTS2018](https://www.med.upenn.edu/sbia/brats2018/), [BraTS2019](ht
 | ProtoPNet         | 84.3 | 11.8 | 24.2 |
 | XProtoNet         | 84.7 | 16.9 | 16.3 |
 | MProtoNet         | 85.8 | 81.2 | 6.2 |
-| MAProtoNet (ours) | 86.7 | 85.8 | 6.2 |
+| MAProtoNet (ours) | **86.7** | **85.8** | **6.2** |
 
 
-
+**
 
 ## Acknowledgment <a id="Acknowledgment"></a>
 This repository is established upon the source code of MProtoNet, from https://github.com/aywi/mprotonet developed by Yuanyuan Wei, Roger Tam and Xiaoying Tang. We appreciate their work.
