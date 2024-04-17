@@ -64,7 +64,9 @@ balanced accuracy (BAC) and incremental deletion score (IDS) scores.
 | MAProtoNet (ours) | **86.7** | **85.8** | **6.2** |
 
 
-**
+<img src="figures/visualization.png" alt="Visualization Results" width="901.8" height="441.45">
+
+
 
 ## Acknowledgment <a id="Acknowledgment"></a>
 This repository is established upon the source code of MProtoNet, from https://github.com/aywi/mprotonet developed by Yuanyuan Wei, Roger Tam and Xiaoying Tang. We appreciate their work.
