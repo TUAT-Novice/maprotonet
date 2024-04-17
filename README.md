@@ -78,8 +78,6 @@ This repository is established upon the source code of MProtoNet, from https://g
 ## Citation <a id="Citation"></a>
 If you found this repository useful, please consider citing:
 
-[Jie Maoc, Zhe Sunc,d,e, Chao Lib, Qibin Zhaob,a, Toshihisa Tanakaa](https://arxiv.org/abs/2404.08917)
-
 @article{
 binghua_maprotonet_2024,
 author = {Binghua, Li and Jie, Mao and Zhe, Sun and Chao, Li and Qibin, Zhao and Toshihisa, Tanaka},
