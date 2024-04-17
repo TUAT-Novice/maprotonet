@@ -77,7 +77,7 @@ This repository is established upon the source code of MProtoNet, from https://g
 
 ## Citation <a id="Citation"></a>
 If you found this repository useful, please consider citing:
-
+<a id="1">[1]</a> 
 @article{
 binghua_maprotonet_2024,
 author = {Binghua, Li and Jie, Mao and Zhe, Sun and Chao, Li and Qibin, Zhao and Toshihisa, Tanaka},
