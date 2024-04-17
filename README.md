@@ -51,6 +51,10 @@ We employ [BraTS2018](https://www.med.upenn.edu/sbia/brats2018/), [BraTS2019](ht
 
 
 ## Results <a id="Results"></a>
+
+Our experiments find that our MAProtoNet can achieve much better locolization capability with higher activation precision (AP) score, while maintaining similar
+balanced accuracy (BAC) and incremental deletion score (IDS) scores.
+
 | Methods           | BAC &uarr; | AP &uarr; | IDS &darr;|
 |:-----------------:|:-----:|:----:|:-----:|
 | CNN               | 85.5 | 10.7 | 13.8 |
