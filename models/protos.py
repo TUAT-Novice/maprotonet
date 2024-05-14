@@ -36,15 +36,15 @@ def resnet_imagenet(backbone):
     elif backbone == 'resnet152':
         return build_resnet_backbone(ResidualNet("ImageNet", depth=152, num_classes=2, att_type=None))
     # resnet + triplet attention
-    elif backbone == 'resnet18_quadruplet':
+    elif backbone == 'resnet18_quad':
         return build_resnet_backbone(ResidualNet("ImageNet", depth=18, num_classes=2, att_type="QuadrupletAttention"))
-    elif backbone == 'resnet34_quadruplet':
+    elif backbone == 'resnet34_quad':
         return build_resnet_backbone(ResidualNet("ImageNet", depth=34, num_classes=2, att_type="QuadrupletAttention"))
-    elif backbone == 'resnet50_quadruplet':
+    elif backbone == 'resnet50_quad':
         return build_resnet_backbone(ResidualNet("ImageNet", depth=50, num_classes=2, att_type="QuadrupletAttention"))
-    elif backbone == 'resnet101_quadruplet':
+    elif backbone == 'resnet101_quad':
         return build_resnet_backbone(ResidualNet("ImageNet", depth=101, num_classes=2, att_type="QuadrupletAttention"))
-    elif backbone == 'resnet152_quadruplet':
+    elif backbone == 'resnet152_quad':
         return build_resnet_backbone(ResidualNet("ImageNet", depth=152, num_classes=2, att_type="QuadrupletAttention"))
 
 
