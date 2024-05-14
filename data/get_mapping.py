@@ -1,4 +1,4 @@
-# Usage: generate mapping files for the BraTS2018 dataset during the data preparation stage.
+# Usage: generate mapping files for the BraTS2018 dataset during the data preparation stage
 
 import os
 # root path for the BraTS2018 dataset
