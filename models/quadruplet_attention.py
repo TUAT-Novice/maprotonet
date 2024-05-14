@@ -1,4 +1,4 @@
-# Implementation of our Quadruplet Attention
+# Implementation of our quadruplet attention
 
 # modify from: https://github.com/landskape-ai/triplet-attention/blob/master/MODELS/triplet_attention.py
 
