@@ -1,4 +1,4 @@
-# Implementation of ResNet3d with Quadruplet Attention
+# Implementation of resNet3d with quadruplet attention
 
 # modify from source code of triplet attention:
 # https://github.com/landskape-ai/triplet-attention/blob/master/MODELS/resnet.py
