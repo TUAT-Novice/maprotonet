@@ -99,7 +99,7 @@ def conv_info(net):
     return kernel_sizes, strides, paddings
 
 
-# -------------------------------- Resnet3D --------------------------------
+# ------------------------------------------- Resnet3D -------------------------------------------
 class CNN(nn.Module):
     def __init__(self, in_size=(4, 128, 128, 96), out_size=2, backbone='resnet152', n_res_block=2, **kwargs):
         super(CNN, self).__init__()
