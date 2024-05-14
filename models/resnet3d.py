@@ -6,7 +6,8 @@
 import torch.nn as nn
 import torch.nn.functional as F
 from torch.nn import init
-from .quadruplet_attention import QuadrupletAttention
+
+from models.quadruplet_attention import QuadrupletAttention
 
 
 def conv3x3(in_planes, out_planes, stride=1):
