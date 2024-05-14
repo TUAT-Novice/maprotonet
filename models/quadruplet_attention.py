@@ -1,3 +1,5 @@
+# Implementation of our Quadruplet Attention
+
 # modify from: https://github.com/landskape-ai/triplet-attention/blob/master/MODELS/triplet_attention.py
 
 import torch
