@@ -1,7 +1,7 @@
-import torchio as tio
 import copy
-import numpy as np
 import torch
+import torchio as tio
+import numpy as np
 
 from pathlib import Path
 from sklearn.preprocessing import label_binarize
