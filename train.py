@@ -119,7 +119,7 @@ def train_ppnet(net, data_loader, optimizer, criterion, scaler, args, use_l1_mas
                         loss = loss + loss_map
                 if args.p_mode >= 2:
                     loss = loss + loss_oc
-            else:
+            else:  # for linear head
                 # Calculate L1-regularization loss
                 if use_l1_mask:
                     l1_mask = 1 - net.module.prototype_class_identity.mT
