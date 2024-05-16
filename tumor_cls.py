@@ -49,7 +49,7 @@ def main():
     # 2. initial setting
     # ddp
     # TODO: gloo (Wins) -> nccl (Linux)
-    dist.init_process_group(backend='gloo', rank=args.device_id)
+    dist.init_process_group(backend='nccl', rank=args.device_id)
     # multithreading
     torch.set_num_threads(args.n_threads)
     # warning
