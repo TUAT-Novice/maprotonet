@@ -71,10 +71,6 @@ def main():
     transform = tio.Compose(transform)
     # preload
     x, y = load_data(data_path=args.data_path)
-
-    x = list(x)[:40]
-    y = np.array(list(y)[:40])
-
     dataset = tio.SubjectsDataset(list(x), transform=transform)
     data_loader = DataLoader(dataset, num_workers=args.n_workers)
     x = preprocess(data_loader)
