@@ -147,7 +147,7 @@ def main():
         print(f"Number of Epoch = {args.epoch}")
 
         # 5.3 ddp, amp
-        net = torch.nn.SyncBatchNorm.convert_sync_batchnorm(net)
+        net = torch.nn.SyncBatchNorm.convert_sync_batchnorm(net).to(args.device_id)
         net = torch.nn.parallel.DistributedDataParallel(net, device_ids=[args.device_id])
         scaler = torch.cuda.amp.GradScaler(enabled=args.use_amp)
 
