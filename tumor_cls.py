@@ -193,7 +193,7 @@ def main():
             else:
                 optimizer = optim.SGD(net.parameters(), lr=args.lr, momentum=0.9, weight_decay=args.wd)
 
-       # 5.6 warmup & lr scheduler
+        # 5.6 warmup & lr scheduler
         if 'WU' in args.lr_opt and args.wu_n <= 0:
             args.wu_n = args.epoch // 5
         if 'StepLR' in args.lr_opt:
