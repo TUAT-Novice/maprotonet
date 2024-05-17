@@ -26,7 +26,7 @@ def parse_arguments():
     parser.add_argument('--accumulat-step', type=int, default=1, help="gradient accumulate steps")
     parser.add_argument('--use-amp', type=int, choices={0, 1}, default=1,
                         help="whether to use automatic mixed precision")
-    parser.add_argument('--use-da', type=int, choices={0, 1}, default=1,
+    parser.add_argument('--use-da', type=int, choices={0, 1}, default=0,
                         help="whether to use deterministic algorithms")
 
     # model
