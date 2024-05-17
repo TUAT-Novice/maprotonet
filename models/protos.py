@@ -409,7 +409,7 @@ class ProtoNets(nn.Module):
             min_distances = distances.topk(self.topk_p, dim=2, largest=False)[0].mean(2)
         elif self.p_mode >= 1:  # for XProtoNet, MProtoNet and MAProtoNet
             f_x, p_map, h = self.conv_features(x)
-            distances = self.prototype_distances(f_x, p_map)
+            distances, p_x = self.prototype_distances(f_x, p_map)
             distances = distances.flatten(2)
             min_distances = distances.flatten(1)
         prototype_activations = self.distance_2_similarity(min_distances)
