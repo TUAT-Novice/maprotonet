@@ -387,9 +387,9 @@ class ProtoNets(nn.Module):
             p_size = f_x.flatten(2).shape[2]
             p_x = (torch.einsum('bphwa,bchwa->bpc', p_map, f_x) / p_size)[(...,) + (None,) * 3]
             if self.f_dist == 'l2':
-                return self.l2_convolution_3D(p_x)
+                return self.l2_convolution_3D(p_x), p_x
             elif self.f_dist == 'cos':
-                return self.cosine_convolution_3D(p_x)
+                return self.cosine_convolution_3D(p_x), p_x
 
     def distance_2_similarity(self, distances):
         if self.f_dist == 'cos':
@@ -428,8 +428,8 @@ class ProtoNets(nn.Module):
             return f_x, distances
         elif self.p_mode >= 1:  # for XProtoNet, MProtoNet and MAProtoNet
             f_x, p_map, h = self.conv_features(x)
-            distances = self.prototype_distances(f_x, p_map)
-            return f_x, distances, p_map
+            distances, p_x = self.prototype_distances(f_x, p_map)
+            return p_x, distances, p_map
 
 
     def __repr__(self):
