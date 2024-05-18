@@ -155,7 +155,7 @@ def main():
 
         # 5.4 saving path
         img_dir = f'.results/saved_imgs/{model_name_i}/'
-        if not os.path.exists(img_dir):
+        if args.local_rank == 0 and not os.path.exists(img_dir):
             os.makedirs(img_dir)
         prototype_img_filename_prefix = 'prototype-img'
         proto_bound_boxes_filename_prefix = 'bb'
