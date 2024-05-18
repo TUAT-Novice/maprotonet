@@ -131,7 +131,7 @@ def main():
         if args.load_model is not None:
             if args.load_model.startswith(args.model_name):
                 model_name_i = f'{args.load_model}_cv{i}'
-                model_path_i = f'../results/models/{model_name_i}.pt'
+                model_path_i = f'./results/models/{model_name_i}.pt'
             else:
                 model_name_i = f'{args.load_model[args.load_model.find(args.model_name):]}_cv{i}'
                 model_path_i = f'{args.load_model}_cv{i}.pt'
@@ -286,7 +286,7 @@ def main():
                     iads[method][metric][i] = iads__
             print_results("Test", f_x[I_test], y[I_test], lcs_test, n_prototype, iads_test)
             if args.save_model and args.load_model is None:
-                model_dir = '../results/models/'
+                model_dir = './results/models/'
                 if not os.path.exists(model_dir):
                     os.makedirs(model_dir)
                 torch.save(net.module.state_dict(), f'{model_dir}{model_name_i}.pt')
@@ -300,7 +300,7 @@ def main():
         print(f">>>>>>>> {cv_fold}-fold CV Results:")
         print_results("Test", f_x, y, lcs, n_prototypes, iads, splits)
         output_results(args.data_name, args, f_x, y, lcs, n_prototypes, iads, splits)
-        cv_dir = '../results/cvs/'
+        cv_dir = './results/cvs/'
         if not os.path.exists(cv_dir):
             os.makedirs(cv_dir)
         save_cvs(cv_dir, args, f_x, y, lcs, iads, splits)
