@@ -436,7 +436,7 @@ class ProtoNets(nn.Module):
         return (
             f"ProtoNets(\n"
             f"\tpmode: {self.p_mode},\n"
-            f"\tfeatures: {self.backbone_name},\n"
+            f"\tbackbone: {self.backbone_name},\n"
             f"\timg_size: {self.in_size[1:]},\n"
             f"\tprototype_shape: {self.prototype_shape},\n"
             f"\tproto_layer_rf_info: {self.proto_layer_rf_info},\n"
