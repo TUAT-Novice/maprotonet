@@ -43,7 +43,9 @@ def main():
     args.use_da = args.use_da == 1
     # structural
     args.prototype_shape = ast.literal_eval(args.prototype_shape)
-    args.coefs = ast.literal_eval(args.coefs)[0]
+    args.coefs = ast.literal_eval(args.coefs)
+    if isinstance(args.coefs, list):
+        args.coefs = args.coefs[0]
     print(args)
 
     # 2. initial setting
