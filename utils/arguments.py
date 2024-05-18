@@ -23,7 +23,7 @@ def parse_arguments():
                         default='WUCosALR', help="learning rate scheduler option")
     parser.add_argument('--lr-n', type=int, default=0, help="learning rate scheduler number")
     parser.add_argument('--wu-n', type=int, default=0, help="number of warm-up epochs")
-    parser.add_argument('--accumulat-step', type=int, default=1, help="gradient accumulate steps")
+    parser.add_argument('--accumulate-step', type=int, default=1, help="gradient accumulate steps")
     parser.add_argument('--use-amp', type=int, choices={0, 1}, default=1,
                         help="whether to use automatic mixed precision")
     parser.add_argument('--use-da', type=int, choices={0, 1}, default=0,
