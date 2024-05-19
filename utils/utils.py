@@ -207,10 +207,10 @@ def save_cvs(cv_dir, args, f_x, y, lcs, iads, splits):
     file = f'{cv_dir}{args.model_name}_{opts_hash}.joblib'
     bacs = f_splits(splits, balanced_accuracy, f_x, y)
     aucs = f_splits(splits, auroc, f_x, y)
-    method = 'MProtoNet' if lcs.get('MProtoNet') else 'GradCAM'
+    method = 'ProtoNets' if lcs.get('ProtoNets') else 'GradCAM'
     aps = lcs[method]['(WT, Th=0.5) AP'].mean(1)
     dscs = lcs[method]['(WT, Th=0.5) DSC'].mean(1)
-    method = 'MProtoNet' if iads.get('MProtoNet') else 'GradCAM'
+    method = 'ProtoNets' if iads.get('ProtoNets') else 'GradCAM'
     ias = iads[method]['IA'][:, 1]
     ids = iads[method]['ID'][:, 1]
     cvs = {'bacs': bacs, 'aucs': aucs, 'aps': aps, 'dscs': dscs, 'ias': ias, 'ids': ids}
