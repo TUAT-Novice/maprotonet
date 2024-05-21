@@ -229,8 +229,6 @@ def main():
         if args.load_model is None:
             print("Epoch =", end='', flush=True)
             for e in range(args.epoch):
-                # break
-
                 print(f" {e + 1}", end='', flush=True)
                 if args.lr_opt != 'Off':
                     print(f"(lr={scheduler.get_last_lr()[0]:g})", end='', flush=True)
