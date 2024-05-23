@@ -51,8 +51,9 @@ Please download and prepare the BraTS datasets according to the [Datasets](#Data
 
 `bash run.sh`
 
-To train the model, please set the `data_path` and `model` parameters in the script accordingly; To eva
-This script will execute the downstream scripts located in `./scripts/run_XXX.sh` for training or evaluation, based on the `model=XXX` parameter you provide.
+To train the model, please set the `data_path` and `model` parameters in the script accordingly. To evaluate your well-trained model, please also provide a value for the `load_model` parameter. This value should be in the format like `maprotonet_eefb07f7`, where the first part is the model name and the second part is the hash code for the hyperparameters.
+
+When you run the `run.sh` script, it will execute the downstream scripts located in `./scripts/run_XXX.sh` based on the `model=XXX` parameter you provide. If you want to further change the architecture of the models, please modify the scripts in that directory.
 
 ### Our checkpoints
 We also provide five model checkpoints, obtained through 5-fold cross-validation and used to report the results in our paper. You can download these checkpoints at:
