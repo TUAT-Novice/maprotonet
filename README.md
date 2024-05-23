@@ -39,8 +39,11 @@ The directories of this repository are established as below:
 
 ## Environments and Dependencies <a id="Environment"></a>
 Python >= 3.10.9
+
 Pytorch >= 2.0.1
+
 CUDA == 12.4 (our enviroments)
+
 Other required packages in requirements.txt
 
 ## Datasets <a id="Datasets"></a>
