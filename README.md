@@ -51,7 +51,7 @@ To reproduce our results, please download and prepare the BraTS datasets accordi
 
 `bash run.sh`
 
-This script will execute the downstream scripts located in `./scripts/run_XXX.sh` for training or evaluation, based on the `model` parameter you provide.
+This script will execute the downstream scripts located in `./scripts/run_XXX.sh` for training or evaluation, based on the `model=XXX` parameter you provide.
 
 ### Our checkpoints
 We also provide 5 model checkpoints, which are obtained by 5-fold cross validation and used to report the results in our paper. You can download the these checkpoints in: 
