@@ -51,7 +51,7 @@ To reproduce our results, please modify and run:
 
 `bash run.sh`
 
-This script will run the downstream scripts from './scripts/run_XXX.sh' 
+This script will run the downstream scripts from './scripts/run_XXX.sh' for training or evaluation, according to the `model` parameter you provide.  
 
 ## Results <a id="Results"></a>
 
