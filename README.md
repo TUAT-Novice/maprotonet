@@ -40,6 +40,7 @@ The directories of this repository are established as below:
 
 ## Environment Configurations <a id="Environment"></a>
 python >= 3.10.9
+
 CUDA == 12.4
 
 ## Datasets <a id="Datasets"></a>
