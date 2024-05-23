@@ -46,18 +46,18 @@ We employ [BraTS2018](https://www.med.upenn.edu/sbia/brats2018/), [BraTS2019](ht
 
 
 ## Experiments Reproduction <a id="Experiments"></a>
-#### Train and Test
+### Train and Test
 To reproduce our results, please modify and run:
 
 `bash run.sh`
 
 This script will run the downstream scripts from './scripts/run_XXX.sh' for training or evaluation, according to the `model` parameter you provide.
 
-#### Our checkpoints
+### Our checkpoints
 We also provide 5 model checkpoints, which are obtained by 5-fold cross validation and used to report the results in our paper. You can download the these checkpoints in: 
 [https://drive.google.com/drive/folders/1JShOsT1nacHYNPPFq2Ys3IiXV6yB-M-_?usp=sharing](https://drive.google.com/drive/folders/1JShOsT1nacHYNPPFq2Ys3IiXV6yB-M-_?usp=sharing)
 
-#### Visualization
+### Visualization
 If you want to make use of our checkpoint files, p
 
 ## Results <a id="Results"></a>
