@@ -3,14 +3,14 @@ export nproc_per_node=1
 export nnodes=1
 export node_rank=0
 
-# dataset
+# path to the name_mapping.csv file of BraTS dataset
 export data_path=path_to_the_name_mapping_file
 
-# model
+# model can be set from {maprotonet, mprotonet, xprotonet, protopnet, cnn}
 export model=maprotonet
 
 # provide the model hash code only when you want to evaluate, such as maprotonet_eefb07f7
-# export load_model=hash_code_of_the_model
+# export load_model=model_name
 
 if [[ $model =~ maprotonet ]]
   then
