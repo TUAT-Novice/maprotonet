@@ -47,9 +47,7 @@ We employ [BraTS2018](https://www.med.upenn.edu/sbia/brats2018/), [BraTS2019](ht
 
 ## Experiments Reproduction <a id="Experiments"></a>
 ### Train and Test
-To reproduce our results, please download and prepare the BraTS datasets according to the [Datasets](#Datasets) section. 
-
-and run:
+To reproduce our results, please download and prepare the BraTS datasets according to the [Datasets](#Datasets) section. Then, you can modify the `data_path` and `model` parameters in the `run.sh` script, and run:
 
 `bash run.sh`
 
