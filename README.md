@@ -37,15 +37,14 @@ The directories of this repository are established as below:
 * **requirements.txt**  (environment configurations)
 * **readme.md**
 
-
-## Environment Configurations <a id="Environment"></a>
-python >= 3.10.9
-
-CUDA == 12.4
+## Environments and Dependencies <a id="Environment"></a>
+Python >= 3.10.9
+Pytorch >= 2.0.1
+CUDA == 12.4 (our enviroments)
+Other required packages in requirements.txt
 
 ## Datasets <a id="Datasets"></a>
 We employ [BraTS2018](https://www.med.upenn.edu/sbia/brats2018/), [BraTS2019](https://www.med.upenn.edu/cbica/brats-2019/), [BraTS2020](https://www.med.upenn.edu/cbica/brats2020/) datasets in our experiments. After applying for and downloading the datasets, for BraTS2018 dataset, please run data/get_mapping.py to generate name_mapping.csv before training.
-
 
 ## Experiments Reproduction <a id="Experiments"></a>
 ### Train and Test
@@ -80,15 +79,10 @@ Our experiments find that our MAProtoNet can achieve much better locolization ca
 | MProtoNet         | 85.8 | 81.2 | 6.2 |
 | MAProtoNet (ours) | **86.7** | **85.8** | **6.2** |
 
-
 <img src="figures/visualization.png" alt="Visualization Results" width="901.8" height="441.45">
-
-
 
 ## Acknowledgment <a id="Acknowledgment"></a>
 This repository is established upon the source code of MProtoNet, from https://github.com/aywi/mprotonet developed by Yuanyuan Wei, Roger Tam and Xiaoying Tang. We appreciate their work.
-
-
 
 ## Citation <a id="Citation"></a>
 If you found this repository useful, please consider citing:
