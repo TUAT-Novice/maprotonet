@@ -59,7 +59,7 @@ When you run the `run.sh` script, it will execute the downstream scripts located
 We also provide five model checkpoints, obtained through 5-fold cross-validation and used to report the results in our paper. You can download these checkpoints at:
 [https://drive.google.com/drive/folders/1JShOsT1nacHYNPPFq2Ys3IiXV6yB-M-_?usp=sharing](https://drive.google.com/drive/folders/1JShOsT1nacHYNPPFq2Ys3IiXV6yB-M-_?usp=sharing).
 
-If you want to evaluate MAProtoNet with our checkpoints, please download all five checkpoints and put them into `./results/model/`. Next, you can modify the `run.sh` script to set the `load_model` variable to `maprotonet_eefb07f7`, and then run the script to evaluate our model.
+If you want to evaluate MAProtoNet with our checkpoints, please download all five checkpoints and put them into `./results/models/`. Next, you can modify the `run.sh` script to set the `load_model` variable to `maprotonet_eefb07f7`, and then run the script to evaluate our model.
 
 ### Visualization
 If you want to make use of our checkpoint files, p
