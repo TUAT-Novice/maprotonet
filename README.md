@@ -54,8 +54,9 @@ To reproduce our results, please download and prepare the BraTS datasets accordi
 This script will execute the downstream scripts located in `./scripts/run_XXX.sh` for training or evaluation, based on the `model=XXX` parameter you provide.
 
 ### Our checkpoints
-We also provide 5 model checkpoints, which are obtained by 5-fold cross validation and used to report the results in our paper. You can download the these checkpoints in: 
+We also provide five model checkpoints, obtained through 5-fold cross-validation and used to report the results in our paper. You can download these checkpoints at:
 [https://drive.google.com/drive/folders/1JShOsT1nacHYNPPFq2Ys3IiXV6yB-M-_?usp=sharing](https://drive.google.com/drive/folders/1JShOsT1nacHYNPPFq2Ys3IiXV6yB-M-_?usp=sharing)
+If you want to evaluate MAProtoNet with our checkpoints, please 
 
 ### Visualization
 If you want to make use of our checkpoint files, p
