@@ -47,10 +47,11 @@ We employ [BraTS2018](https://www.med.upenn.edu/sbia/brats2018/), [BraTS2019](ht
 
 ## Experiments Reproduction <a id="Experiments"></a>
 ### Train and Test
-To reproduce our results, please download and prepare the BraTS datasets according to the [Datasets](#Datasets) section. Then, modify the `data_path` and `model` parameters in the `run.sh` script as needed, and run:
+Please download and prepare the BraTS datasets according to the [Datasets](#Datasets) section first. Then, you can modify and run the `run.sh` script as needed:
 
 `bash run.sh`
 
+To train the model, please set the `data_path` and `model` parameters in the script accordingly; To eva
 This script will execute the downstream scripts located in `./scripts/run_XXX.sh` for training or evaluation, based on the `model=XXX` parameter you provide.
 
 ### Our checkpoints
@@ -81,8 +82,6 @@ Our experiments find that our MAProtoNet can achieve much better locolization ca
 
 ## Acknowledgment <a id="Acknowledgment"></a>
 This repository is established upon the source code of MProtoNet, from https://github.com/aywi/mprotonet developed by Yuanyuan Wei, Roger Tam and Xiaoying Tang. We appreciate their work.
-
-
 
 
 
