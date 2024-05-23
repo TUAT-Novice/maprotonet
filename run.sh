@@ -4,7 +4,7 @@ export nnodes=1
 export node_rank=0
 
 # dataset
-export data_path=D:/data/BraTS2018/MICCAI_BraTS_2018_Data_Training
+export data_path=path_to_the_name_mapping_file
 
 # model
 export model=maprotonet
