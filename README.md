@@ -55,14 +55,16 @@ To train the model, please set the `data_path` and `model` parameters in the scr
 
 When you run the `run.sh` script, it will execute the downstream scripts located in `./scripts/run_XXX.sh` based on the `model=XXX` parameter you provide. If you want to further change the architecture of the models, please modify the scripts in that directory.
 
+### Visualization
+If you want to classify and attribute with the well-trained models, please check and follow the codes in `visualization.ipynb`.
+
 ### Our checkpoints
 We also provide five model checkpoints, obtained through 5-fold cross-validation and used to report the results in our paper. You can download these checkpoints at:
 [https://drive.google.com/drive/folders/1JShOsT1nacHYNPPFq2Ys3IiXV6yB-M-_?usp=sharing](https://drive.google.com/drive/folders/1JShOsT1nacHYNPPFq2Ys3IiXV6yB-M-_?usp=sharing).
 
 If you want to evaluate MAProtoNet with our checkpoints, please download all five checkpoints and put them into `./results/models/`. Next, you can modify the `run.sh` script to set the `load_model` variable to `maprotonet_eefb07f7`, and then run the script to evaluate our model.
 
-### Visualization
-If you want to make use of our checkpoint files, p
+If you want to use our checkpoints for diagnosis and attribution, please follow the `visualization.ipynb` using the provided checkpoints.
 
 ## Results <a id="Results"></a>
 
