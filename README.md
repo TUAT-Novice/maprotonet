@@ -18,8 +18,8 @@ Please check the following sections for more details:
 | [Experiments Reproduction](#Experiments) |
 | [Results](#Results) |
 | [Acknowledgment](#Acknowledgment) |
-| [Citation](#Citation) |
 | [TODO List](#TODO) |
+| [Citation](#Citation) |
 
 If necessary, please check further details from our paper "MAProtoNet: A Multi-scale Attentive Interpretable Prototypical Part Network for 3D Magnetic Resonance Imaging Brain Tumor Classification", or contact us through email: s237857s@st.go.tuat.ac.jp
 
