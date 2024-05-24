@@ -42,7 +42,7 @@ Python >= 3.10.9
 
 Pytorch >= 2.0.1
 
-The CUDA version we use is 11.7. Please use code like `torch==2.0.1 torchvision==0.15.2 torchaudio==2.0.2 --index-url https://download.pytorch.org/whl/cu117` to install the package according to your environments. Other required packages are in requirements.txt. Please run `pip install -r requirements.txt` to install them. The CUDA version we use is 11.7.
+The CUDA version we use is 11.7. Please use code like `torch==2.0.1 torchvision==0.15.2 torchaudio==2.0.2 --index-url https://download.pytorch.org/whl/cu117` to install the package according to your environments. Other required packages are in requirements.txt. Please run `pip install -r requirements.txt` to install them.
 
 ## Datasets <a id="Datasets"></a>
 We employ [BraTS2018](https://www.med.upenn.edu/sbia/brats2018/), [BraTS2019](https://www.med.upenn.edu/cbica/brats-2019/), [BraTS2020](https://www.med.upenn.edu/cbica/brats2020/) datasets in our experiments. After applying for and downloading the datasets, for BraTS2018 dataset, please run data/get_mapping.py to generate name_mapping.csv before training.
