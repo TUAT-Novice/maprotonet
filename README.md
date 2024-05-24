@@ -89,7 +89,7 @@ This repository is established upon the source code of MProtoNet, from https://g
 
 
 ## TODO List <a id="TODO"></a>
-- [x] Code for multi-gpu running
+- [ ] Code for multi-gpu running
 
 
 ## Citation <a id="Citation"></a>
