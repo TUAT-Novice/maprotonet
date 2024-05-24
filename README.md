@@ -13,7 +13,7 @@ Please check the following sections for more details:
 |Repository Directory|
 | --- |
 | [Directory Structure](#Structure) |
-| [Environment Configurations](#Environment) |
+| [Environments and Dependencies](#Environment) |
 | [Datasets](#Datasets) |
 | [Experiments Reproduction](#Experiments) |
 | [Results](#Results) |
