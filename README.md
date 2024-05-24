@@ -44,7 +44,7 @@ Pytorch >= 2.0.1
 
 CUDA == 12.4 (our enviroments)
 
-Other required packages in requirements.txt. Please run `pip install -r requirements.txt` to install them.
+Other required packages are in requirements.txt. Please run `pip install -r requirements.txt` to install them.
 
 ## Datasets <a id="Datasets"></a>
 We employ [BraTS2018](https://www.med.upenn.edu/sbia/brats2018/), [BraTS2019](https://www.med.upenn.edu/cbica/brats-2019/), [BraTS2020](https://www.med.upenn.edu/cbica/brats2020/) datasets in our experiments. After applying for and downloading the datasets, for BraTS2018 dataset, please run data/get_mapping.py to generate name_mapping.csv before training.
