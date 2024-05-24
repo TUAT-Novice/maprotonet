@@ -27,15 +27,16 @@ If necessary, please check further details from our paper "MAProtoNet: A Multi-s
 
 ## Directory Structure <a id="Structure"></a>
 The directories of this repository are established as below:
-* **data** -- source codes for data processing
-* **train.py**  (code for training and evaluation)
-* **run.sh** (shell to run the experiments)
-* **models/**  (code for our MAProtoNet model)
-* **utils/**  (code for utility functions)
-* **data/**  (code for BraTS datasets preparing)
-* **figures/**  (images for this repository)
-* **requirements.txt**  (environment configurations)
-* **readme.md**
+* **data/** -- source codes for data processing
+* **figures/**  -- images for this repository
+* **models/**  -- source code for our MAProtoNet model
+* **scripts/**  -- shell scripts for running
+* **utils/**  -- source code for utility functions
+* **requirements.txt**  -- environment configurations
+* **run.sh** -- shell script to run our experiments
+* **train.py**  -- source code for training and evaluation
+* **tumor.py**  -- source code for the main function of our experiments
+* **visualization.ipynb**  -- code for visualization with a well-trained MAProtoNet
 
 ## Environments and Dependencies <a id="Environment"></a>
 Python >= 3.10.9
