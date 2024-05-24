@@ -19,6 +19,7 @@ Please check the following sections for more details:
 | [Results](#Results) |
 | [Acknowledgment](#Acknowledgment) |
 | [Citation](#Citation) |
+| [TODO List](#TODO) |
 
 If necessary, please check further details from our paper "MAProtoNet: A Multi-scale Attentive Interpretable Prototypical Part Network for 3D Magnetic Resonance Imaging Brain Tumor Classification", or contact us through email: s237857s@st.go.tuat.ac.jp
 
@@ -85,6 +86,11 @@ Our experiments find that our MAProtoNet can achieve much better locolization ca
 
 ## Acknowledgment <a id="Acknowledgment"></a>
 This repository is established upon the source code of MProtoNet, from https://github.com/aywi/mprotonet developed by Yuanyuan Wei, Roger Tam and Xiaoying Tang. We appreciate their work.
+
+
+## TODO List <a id="TODO"></a>
+- [x] Code for multi-gpu running
+
 
 ## Citation <a id="Citation"></a>
 If you found this repository useful, please consider citing:
