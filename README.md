@@ -93,7 +93,7 @@ This repository is established upon the source code of MProtoNet, from https://g
 
 
 ## Citation <a id="Citation"></a>
-If you found this repository useful, please consider citing:
+If you found this repository helpful, please consider citing:
 ```bibtex
 @article{
 binghua_maprotonet_2024,
