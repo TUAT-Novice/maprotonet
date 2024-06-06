@@ -33,10 +33,12 @@ def push_prototypes(data_loader,  # pytorch dataloader (must be unnormalized in 
     start = time.time()
     prototype_shape = ppnet.prototype_shape
     n_prototypes = ppnet.num_prototypes
-    # saves the closest distance seen so far
+    # save the closest distance seen so far
     global_min_proto_dist = np.full(n_prototypes, np.inf)
-    # saves the patch representation that gives the current smallest distance
+    # save the patch representation that gives the current smallest distance
     global_min_fmap_patches = np.zeros(prototype_shape)
+    # save the raw images
+    global_min_raw_images = np.zeros((n_prototypes, ) + ppnet.in_size)
 
     '''
     proto_rf_boxes and proto_bound_boxes column:
@@ -79,6 +81,7 @@ def push_prototypes(data_loader,  # pytorch dataloader (must be unnormalized in 
                                    ppnet,
                                    global_min_proto_dist,
                                    global_min_fmap_patches,
+                                   global_min_raw_images,
                                    proto_rf_boxes,
                                    proto_bound_boxes,
                                    args,
@@ -96,7 +99,9 @@ def push_prototypes(data_loader,  # pytorch dataloader (must be unnormalized in 
                 proto_rf_boxes)
         np.save(os.path.join(proto_epoch_dir, proto_bound_boxes_filename_prefix + str(epoch_number) + '.npy'),
                 proto_bound_boxes)
-
+        np.save(os.path.join(proto_epoch_dir, proto_bound_boxes_filename_prefix + '-raw_images' + '.npy'),
+                global_min_raw_images)
+      
     log("\tExecuting push...", end='', flush=True)
     prototype_update = global_min_fmap_patches.reshape(prototype_shape)
     ppnet.prototype_vectors.data.copy_(torch.tensor(prototype_update).to(args.device))
@@ -110,6 +115,7 @@ def update_prototypes_on_batch(search_batch_input,
                                ppnet,
                                global_min_proto_dist, # the mind distance, this will be updated
                                global_min_fmap_patches, # the patches representation, this will be updated
+                               global_min_raw_images, # the raw images where the patches from
                                proto_rf_boxes, # information of the saved prototypes, this will be updated
                                proto_bound_boxes, # information of the saved prototypes, this will be updated
                                args,
@@ -228,7 +234,9 @@ def update_prototypes_on_batch(search_batch_input,
             original_img_j = original_img_j.numpy()
             original_img_j = np.transpose(original_img_j, (1, 2, 0))
             original_img_size = original_img_j.shape[0]
-
+            
+            # save raw images
+            global_min_raw_images[j] = raw_img[rf_prototype_j[0]]
             # save the prototype receptive field information
             proto_rf_boxes[j, 0] = rf_prototype_j[0] + start_index_of_search_batch
             proto_rf_boxes[j, 1] = rf_prototype_j[1]
