@@ -2,6 +2,7 @@
 
 import os
 import time
+import copy
 import cv2
 import numpy as np
 import torch
@@ -128,7 +129,7 @@ def update_prototypes_on_batch(search_batch_input,
                                prototype_img_filename_prefix=None,
                                prototype_activation_function_in_numpy=None):
     ppnet.eval()
-
+    raw_img = copy.deepcopy(search_batch_input)
     if preprocess_input_function is not None:
         search_batch = preprocess_input_function(search_batch_input)
     else:
