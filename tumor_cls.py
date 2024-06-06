@@ -245,7 +245,7 @@ def main():
                             loader_push,
                             net.module,
                             args,
-                            root_dir_for_saving_prototypes=None if e + 1 < args.epoch else img_dir,
+                            root_dir_for_saving_prototypes=None,
                             prototype_img_filename_prefix=prototype_img_filename_prefix,
                             proto_bound_boxes_filename_prefix=proto_bound_boxes_filename_prefix
                         )
@@ -255,8 +255,16 @@ def main():
                     for j in range(10):
                         train(net, loader_train, optimizer_last_layer, criterion, scaler, args,
                               stage=f'last_{j}', class_weight = class_weight)
-
+        
         # 5.9 Evaluation per CV
+        push_prototypes(
+            loader_push,
+            net.module,
+            args,
+            root_dir_for_saving_prototypes=img_dir,
+            prototype_img_filename_prefix=prototype_img_filename_prefix,
+            proto_bound_boxes_filename_prefix=proto_bound_boxes_filename_prefix
+        )
         del dataset_train, loader_train
         if args.p_mode >= 0:
             del loader_push
