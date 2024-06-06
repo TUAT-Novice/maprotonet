@@ -154,7 +154,7 @@ def main():
         scaler = torch.cuda.amp.GradScaler(enabled=args.use_amp)
 
         # 5.4 saving path
-        img_dir = f'.results/saved_imgs/{model_name_i}/'
+        img_dir = f'./results/saved_imgs/{model_name_i}/'
         if args.local_rank == 0 and not os.path.exists(img_dir):
             os.makedirs(img_dir)
         prototype_img_filename_prefix = 'prototype-img'
