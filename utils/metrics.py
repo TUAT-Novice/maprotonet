@@ -135,7 +135,7 @@ def process_iad(iads, y, save_plot=True, model_name=None):
             ratios = ratios / ratios.max(0).clip(1e-12)
             iads[method][metric] = ((ratios[:-1] + ratios[1:]) / 2).mean(0, keepdims=True)
             if save_plot and model_name is not None:
-                iads_dir = f'../results/iads/{model_name}/'
+                iads_dir = f'./results/iads/{model_name}/'
                 if not os.path.exists(iads_dir):
                     os.makedirs(iads_dir)
                 plot_iad(curves[:, 0], iads[method][metric][0, 0], method, metric, "Top Voxels (%)",
