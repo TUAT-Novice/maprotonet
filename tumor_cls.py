@@ -306,7 +306,6 @@ def main():
             toc = time.time()
             print(f"Elapsed time is {toc - tic:.6f} seconds.")
             print()
-        dist.barrier()
 
     # 6. overall evaluation
     if args.local_rank == 0:
@@ -321,7 +320,6 @@ def main():
         toc = time.time()
         print(f"Elapsed time is {toc - tic:.6f} seconds.")
         print()
-    dist.barrier()
 
 
 if __name__ == "__main__":
