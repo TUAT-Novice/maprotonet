@@ -133,7 +133,7 @@ def get_hashes(args):
 
 
 def output_results(dataset, args, f_x, y, lcs=None, n_prototypes=None,
-                   iads=None, splits=None, file='../results/raw.md'):
+                   iads=None, splits=None, file='./results/raw.md'):
     hostname = socket.gethostname()
     # https://stackoverflow.com/a/28950776
     with socket.socket(socket.AF_INET, socket.SOCK_DGRAM) as s:
