@@ -78,6 +78,7 @@ def main():
         dataset = tio.SubjectsDataset(list(x), transform=transform)
         data_loader = DataLoader(dataset, num_workers=args.n_workers)
         x = [preprocess(data_loader)]
+        del dataset, data_loader, transform
     else:
         x = [None]
     dist.broadcast_object_list(x, src=0)
@@ -91,7 +92,7 @@ def main():
         transform_aug = []
     transform_train = tio.Compose(transform_aug) if args.augmented else None
     transform_test = None
-    del dataset, data_loader, transform, transform_aug
+    del transform_aug
     toc = time.time()
     print(f"Elapsed time is {toc - tic:.6f} seconds.")
 
