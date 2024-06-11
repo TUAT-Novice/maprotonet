@@ -216,10 +216,9 @@ def train_one_cv(local_rank, world_size, master_port,
             for metric, lcs__ in lcs_.items():
                 lcs[method][metric][cv_i] = lcs__.mean(0)
         if args.p_mode >= 0:
-            if n_prototypes is None:
-                n_prototypes = np.zeros((cv_fold, out_size))
-            n_prototypes[cv_i] = net.module.prototype_class_identity.sum(0).cpu().numpy()
-            n_prototype = n_prototypes[cv_i:cv_i + 1]
+            if local_rank == 0:
+                n_prototypes[cv_i] = net.module.prototype_class_identity.sum(0).cpu().numpy()
+            n_prototype = net.module.prototype_class_identity.sum(0).cpu().numpy()
         else:
             n_prototype = None
         process_iad(iads_test, y[I_test], model_name=model_name_i)
@@ -306,7 +305,12 @@ def main():
 
     # 5. CV training
     args.p_mode = P_MODE_LIST[args.model_name]
-    f_x, lcs, n_prototypes, iads = np.zeros(y.shape), {}, None, {}
+    
+    manager = mp.Manager()
+    f_x = mp.Array('f', np.zeros(y.shape))
+    lcs = manager.dict({})
+    n_prototypes = mp.Array('f', np.zeros((cv_fold, len(set(y.argmax(0))))))
+    iads = manager.dict({})
     for i, (I_train, I_test) in enumerate(cv.split(x, y.argmax(1))):
         seed_everything(args.seed)
         print(f">>>>>>>> CV = {i + 1}:")
