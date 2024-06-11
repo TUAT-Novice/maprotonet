@@ -265,8 +265,7 @@ def main():
         
         # 5.9 Evaluation per CV
         del dataset_train, loader_train
-        if args.p_mode >= 0:
-            del loader_push
+        # push again for saving
         if args.local_rank == 0:
             push_prototypes(
                 loader_push,
@@ -276,6 +275,9 @@ def main():
                 prototype_img_filename_prefix=prototype_img_filename_prefix,
                 proto_bound_boxes_filename_prefix=proto_bound_boxes_filename_prefix
             )
+        if args.p_mode >= 0:
+            del loader_push
+        if args.local_rank == 0:
             f_x[I_test], lcs_test, iads_test = test(net, loader_test, args)
             del dataset_test, loader_test
             for method, lcs_ in lcs_test.items():
