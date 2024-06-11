@@ -63,7 +63,7 @@ def train_one_cv(local_rank, world_size, master_port,
     if args.p_mode == 3:  # for maprotonet
         kwargs['n_scales'] = args.n_scales
         kwargs['scale_mode'] = args.scale_mode
-    net = ProtoNets(**kwargs).to(args.device) if args.p_mode >= 0 else CNN(**kwargs).to(args.device)
+    net = ProtoNets(**kwargs).to(local_rank) if args.p_mode >= 0 else CNN(**kwargs).to(local_rank)
     # load
     if args.load_model is not None:
         if args.load_model.startswith(args.model_name):
@@ -76,21 +76,21 @@ def train_one_cv(local_rank, world_size, master_port,
         print(f"Load Model {args.model_name} from {model_path_i}")
     else:
         model_name_i = f'{args.model_name}_{opts_hash}_cv{cv_i}'
-    net = net.to(args.device_id)
+    net = net.to(local_rank)
     # num of params, flops
-    input_x = torch.randn(in_size).unsqueeze(0).to(args.device_id)
+    input_x = torch.randn(in_size).unsqueeze(0).to(local_rank)
     net.flops, net.params = profile(net, inputs=(input_x,))
     print_param(net, show_each=False)
     print(f"Model: {model_name_i}\n{str(net)}")
     print(f"Hyper-parameters = {args}")
     print(f"Number of Epoch = {args.epoch}")
     # model ddp
-    net = torch.nn.SyncBatchNorm.convert_sync_batchnorm(net).to(args.device_id)
-    net = torch.nn.parallel.DistributedDataParallel(net, device_ids=[args.device_id])
+    net = torch.nn.SyncBatchNorm.convert_sync_batchnorm(net).to(local_rank)
+    net = torch.nn.parallel.DistributedDataParallel(net, device_ids=[local_rank])
 
     # 4. saving path
     img_dir = f'./results/saved_imgs/{model_name_i}/'
-    if args.local_rank == 0 and not os.path.exists(img_dir):
+    if not os.path.exists(img_dir):
         os.makedirs(img_dir)
     prototype_img_filename_prefix = 'prototype-img'
     proto_bound_boxes_filename_prefix = 'bb'
@@ -156,9 +156,9 @@ def train_one_cv(local_rank, world_size, master_port,
     else:
         class_weight = torch.ones(y[I_train].shape[1])
     if 'FL' in args.bc_opt:
-        criterion = FocalLoss(weight=class_weight).to(args.device)
+        criterion = FocalLoss(weight=class_weight).to(local_rank)
     else:
-        criterion = nn.CrossEntropyLoss(weight=class_weight).to(args.device)
+        criterion = nn.CrossEntropyLoss(weight=class_weight).to(local_rank)
 
     # 8. training
     scaler = torch.cuda.amp.GradScaler(enabled=args.use_amp)
@@ -169,14 +169,14 @@ def train_one_cv(local_rank, world_size, master_port,
             if args.lr_opt != 'Off':
                 print(f"(lr={scheduler.get_last_lr()[0]:g})", end='', flush=True)
             # stage 1
-            train(net, loader_train, optimizer, criterion, scaler, args, stage='joint', class_weight=class_weight)
+            train(net, loader_train, optimizer, criterion, scaler, args, local_rank, stage='joint', class_weight=class_weight)
             if args.lr_opt != 'Off':
                 scheduler.step()
             # stage 2
             if args.p_mode >= 0 \
                     and e + 1 >= 10 \
                     and e + 1 in [i for i in range(args.epoch + 1) if i % 10 == 0]:
-                if args.local_rank == 0:
+                if local_rank == 0:
                     push_prototypes(
                         loader_push,
                         net.module,
@@ -189,13 +189,13 @@ def train_one_cv(local_rank, world_size, master_port,
                 dist.broadcast(net.module.prototype_vectors.clone().detach(), src=0)
                 # stage 3
                 for j in range(10):
-                    train(net, loader_train, optimizer_last_layer, criterion, scaler, args,
+                    train(net, loader_train, optimizer_last_layer, criterion, scaler, args, local_rank,
                           stage=f'last_{j}', class_weight=class_weight)
 
     # 9. evaluation
     del dataset_train, loader_train
     # push again for saving
-    if args.local_rank == 0:
+    if local_rank == 0:
         push_prototypes(
             loader_push,
             net.module,
@@ -206,8 +206,8 @@ def train_one_cv(local_rank, world_size, master_port,
         )
     if args.p_mode >= 0:
         del loader_push
-    if args.local_rank == 0:
-        f_x[I_test], lcs_test, iads_test = test(net, loader_test, args)
+    if local_rank == 0:
+        f_x[I_test], lcs_test, iads_test = test(net, loader_test, args, local_rank)
         del dataset_test, loader_test
         for method, lcs_ in lcs_test.items():
             if not lcs.get(method):
@@ -243,8 +243,6 @@ def main():
     tic = time.time()
     # 1. parse arguments
     args = parse_arguments()
-    args.device_id = args.gpus = args.local_rank
-    args.device = torch.device('cuda:' + str(args.device_id))
     # str
     args.model_name = args.model_name.lower()
     args.data_name = \
@@ -325,18 +323,17 @@ def main():
         print()
 
     # 6. overall evaluation
-    if args.local_rank == 0:
-        print(f">>>>>>>> {cv_fold}-fold CV Results:")
-        print_results("Test", f_x, y, lcs, n_prototypes, iads, splits)
-        output_results(args.data_name, args, f_x, y, lcs, n_prototypes, iads, splits)
-        cv_dir = './results/cvs/'
-        if not os.path.exists(cv_dir):
-            os.makedirs(cv_dir)
-        save_cvs(cv_dir, args, f_x, y, lcs, iads, splits)
-        print("Finished.")
-        toc = time.time()
-        print(f"Elapsed time is {toc - tic:.6f} seconds.")
-        print()
+    print(f">>>>>>>> {cv_fold}-fold CV Results:")
+    print_results("Test", f_x, y, lcs, n_prototypes, iads, splits)
+    output_results(args.data_name, args, f_x, y, lcs, n_prototypes, iads, splits)
+    cv_dir = './results/cvs/'
+    if not os.path.exists(cv_dir):
+        os.makedirs(cv_dir)
+    save_cvs(cv_dir, args, f_x, y, lcs, iads, splits)
+    print("Finished.")
+    toc = time.time()
+    print(f"Elapsed time is {toc - tic:.6f} seconds.")
+    print()
 
 
 if __name__ == "__main__":
