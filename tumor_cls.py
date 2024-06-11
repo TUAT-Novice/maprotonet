@@ -66,16 +66,22 @@ def main():
         torch.backends.cudnn.deterministic = False
 
     # 3. data
-    # normal transform for preprocess
-    transform = [tio.ToCanonical(), tio.CropOrPad(target_shape=(192, 192, 144))]
-    transform += [tio.Resample(target=(1.5, 1.5, 1.5))]
-    transform += [tio.ZNormalization()]
-    transform = tio.Compose(transform)
     # preload
     x, y = load_data(data_path=args.data_path)
-    dataset = tio.SubjectsDataset(list(x), transform=transform)
-    data_loader = DataLoader(dataset, num_workers=args.n_workers)
-    x = preprocess(data_loader)
+    if args.local_rank == 0:
+        # normal transform for preprocess
+        transform = [tio.ToCanonical(), tio.CropOrPad(target_shape=(192, 192, 144))]
+        transform += [tio.Resample(target=(1.5, 1.5, 1.5))]
+        transform += [tio.ZNormalization()]
+        transform = tio.Compose(transform)
+        # pre-process
+        dataset = tio.SubjectsDataset(list(x), transform=transform)
+        data_loader = DataLoader(dataset, num_workers=args.n_workers)
+        x = [preprocess(data_loader)]
+    else:
+        x = [None]
+    dist.broadcast_object_list(x, src=0)
+    x = x[0]
     # data augmentation (only training)
     if args.augmented:
         if args.aug_seq is None:
