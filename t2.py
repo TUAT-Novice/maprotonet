@@ -311,7 +311,7 @@ def main():
     lcs = dict(manager.dict({}))
     n_proto_shape = (cv_fold, len(set(y.argmax(0))))
     n_prototypes = mp.Array('f', np.zeros(np.prod(n_proto_shape)))
-    n_prototypes = np.frombuffer(n_prototypes.get_obj(), dtype=np.int).reshape(n_prototypes)
+    n_prototypes = np.frombuffer(n_prototypes.get_obj(), dtype=np.float32).reshape(n_prototypes)
     iads = dict(manager.dict({}))
     for i, (I_train, I_test) in enumerate(cv.split(x, y.argmax(1))):
         seed_everything(args.seed)
