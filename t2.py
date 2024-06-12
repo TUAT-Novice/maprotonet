@@ -305,7 +305,7 @@ def main():
 
     # 5. CV training
     args.p_mode = P_MODE_LIST[args.model_name]
-    
+
     manager = mp.Manager()
     f_x = mp.Array('f', np.zeros(y.shape))
     lcs = manager.dict({})
@@ -325,6 +325,10 @@ def main():
         toc = time.time()
         print(f"Elapsed time is {toc - tic:.6f} seconds.")
         print()
+    f_x = np.frombuffer(f_x.get_obj(), dtype=np.float32)
+    lcs = dict(lcs)
+    n_prototypes = np.frombuffer(n_prototypes.get_obj(), dtype=np.int)
+    iads = dict(iads)
 
     # 6. overall evaluation
     print(f">>>>>>>> {cv_fold}-fold CV Results:")
