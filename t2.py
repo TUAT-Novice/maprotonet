@@ -305,12 +305,14 @@ def main():
 
     # 5. CV training
     args.p_mode = P_MODE_LIST[args.model_name]
-
     manager = mp.Manager()
     f_x = mp.Array('f', np.zeros(y.shape))
-    lcs = manager.dict({})
-    n_prototypes = mp.Array('f', np.zeros((cv_fold, len(set(y.argmax(0))))))
-    iads = manager.dict({})
+    f_x = np.frombuffer(f_x.get_obj(), dtype=np.float32)
+    lcs = dict(manager.dict({}))
+    n_proto_shape = (cv_fold, len(set(y.argmax(0))))
+    n_prototypes = mp.Array('f', np.zeros(np.prod(n_proto_shape)))
+    n_prototypes = np.frombuffer(n_prototypes.get_obj(), dtype=np.int).reshape(n_prototypes)
+    iads = dict(manager.dict({}))
     for i, (I_train, I_test) in enumerate(cv.split(x, y.argmax(1))):
         seed_everything(args.seed)
         print(f">>>>>>>> CV = {i + 1}:")
@@ -325,10 +327,6 @@ def main():
         toc = time.time()
         print(f"Elapsed time is {toc - tic:.6f} seconds.")
         print()
-    f_x = np.frombuffer(f_x.get_obj(), dtype=np.float32)
-    lcs = dict(lcs)
-    n_prototypes = np.frombuffer(n_prototypes.get_obj(), dtype=np.int)
-    iads = dict(iads)
 
     # 6. overall evaluation
     print(f">>>>>>>> {cv_fold}-fold CV Results:")
