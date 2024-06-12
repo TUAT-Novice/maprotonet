@@ -17,6 +17,7 @@ from utils.utils import find_high_activation_crop
 def push_prototypes(data_loader,  # pytorch dataloader (must be unnormalized in [0,1])
                     ppnet,  # pytorch network with prototype_vectors
                     args,
+                    local_rank,
                     class_specific=True,
                     preprocess_input_function=None,  # normalize if needed
                     prototype_layer_stride=1,
@@ -80,6 +81,7 @@ def push_prototypes(data_loader,  # pytorch dataloader (must be unnormalized in 
         update_prototypes_on_batch(data,
                                    start_index_of_search_batch,
                                    ppnet,
+                                   local_rank,
                                    global_min_proto_dist,
                                    global_min_fmap_patches,
                                    global_min_raw_images,
@@ -105,7 +107,7 @@ def push_prototypes(data_loader,  # pytorch dataloader (must be unnormalized in 
       
     log("\tExecuting push...", end='', flush=True)
     prototype_update = global_min_fmap_patches.reshape(prototype_shape)
-    ppnet.prototype_vectors.data.copy_(torch.tensor(prototype_update).to(args.device))
+    ppnet.prototype_vectors.data.copy_(torch.tensor(prototype_update).to(local_rank))
     end = time.time()
     log(f"\tpush time: {end - start:.6f}s")
 
@@ -114,6 +116,7 @@ def push_prototypes(data_loader,  # pytorch dataloader (must be unnormalized in 
 def update_prototypes_on_batch(search_batch_input,
                                start_index_of_search_batch,
                                ppnet,
+                               local_rank,
                                global_min_proto_dist, # the mind distance, this will be updated
                                global_min_fmap_patches, # the patches representation, this will be updated
                                global_min_raw_images, # the raw images where the patches from
@@ -136,7 +139,7 @@ def update_prototypes_on_batch(search_batch_input,
         search_batch = search_batch_input
 
     with torch.no_grad():
-        search_batch = search_batch.to(args.device, non_blocking=True)
+        search_batch = search_batch.to(local_rank, non_blocking=True)
         # this computation currently is not parallelized
         if ppnet.p_mode >= 1:
             # for XProtoNet, MProtoNet and MAProtoNet
