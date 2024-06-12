@@ -219,7 +219,7 @@ def train_one_cv(local_rank, world_size, master_port,
         if args.p_mode >= 0:
             if local_rank == 0:
                 n_prototypes[cv_i] = net.module.prototype_class_identity.sum(0).cpu().numpy()
-            n_prototype = net.module.prototype_class_identity.sum(0).cpu().numpy()
+            n_prototype = [net.module.prototype_class_identity.sum(0).cpu().numpy()]
         else:
             n_prototype = None
         process_iad(iads_test, y[I_test], model_name=model_name_i)
