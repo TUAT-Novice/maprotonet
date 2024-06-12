@@ -29,7 +29,7 @@ P_MODE_LIST = {'cnn': -1, 'protopnet': 0, 'xprotonet': 1, 'mprotonet': 2, 'mapro
 def train_one_cv(local_rank, world_size, master_port,
         args, x, y, I_train, I_test, cv_i, transform_train, transform_test,
         f_x,  lcs, n_prototypes, iads, opts_hash, cv_fold=5
-):
+    ):
     # 1. ddp initialize
     os.environ['MASTER_ADDR'] = 'localhost'
     os.environ['MASTER_PORT'] = str(master_port)
