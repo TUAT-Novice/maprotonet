@@ -117,7 +117,7 @@ def main():
         sampler_test = torch.utils.data.SequentialSampler(dataset_test)
         loader_test = DataLoader(dataset_test, batch_size=args.batch_size // 2, num_workers=args.n_workers,
                                  sampler=sampler_test, pin_memory=True)
-        if args.p_mode >= 0:
+        if args.local_rank == 0 and args.p_mode >= 0:
             dataset_push = tio.SubjectsDataset(list(x[I_train]), transform=transform_test)
             sampler_push = torch.utils.data.SequentialSampler(dataset_push)
             loader_push = DataLoader(dataset_push, batch_size=args.batch_size // 2, num_workers=args.n_workers,
@@ -275,11 +275,8 @@ def main():
                 prototype_img_filename_prefix=prototype_img_filename_prefix,
                 proto_bound_boxes_filename_prefix=proto_bound_boxes_filename_prefix
             )
-        if args.p_mode >= 0:
-            del loader_push
-        if args.local_rank == 0:
             f_x[I_test], lcs_test, iads_test = test(net, loader_test, args)
-            del dataset_test, loader_test
+            del dataset_test, loader_test, loader_push
             for method, lcs_ in lcs_test.items():
                 if not lcs.get(method):
                     lcs[method] = {f'({a}, Th=0.5) {m}': np.zeros((cv_fold, 4))
