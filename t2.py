@@ -29,7 +29,7 @@ P_MODE_LIST = {'cnn': -1, 'protopnet': 0, 'xprotonet': 1, 'mprotonet': 2, 'mapro
 def train_one_cv(local_rank, world_size, master_port,
         args, x, y, I_train, I_test, cv_i, transform_train, transform_test,
         f_x,  lcs, n_prototypes, iads, opts_hash, cv_fold=5
-    ):
+):
     # 1. ddp initialize
     os.environ['MASTER_ADDR'] = 'localhost'
     os.environ['MASTER_PORT'] = str(master_port)
@@ -208,7 +208,9 @@ def train_one_cv(local_rank, world_size, master_port,
     if args.p_mode >= 0:
         del loader_push
     if local_rank == 0:
-        f_x[I_test], lcs_test, iads_test = test(net, loader_test, args, local_rank)
+        f_x_i = np.zeros(y.shape)
+        f_x_i[I_test], lcs_test, iads_test = test(net, loader_test, args, local_rank)
+        f_x.append(f_x_i)
         del dataset_test, loader_test
         for method, lcs_ in lcs_test.items():
             if not lcs.get(method):
@@ -217,9 +219,10 @@ def train_one_cv(local_rank, world_size, master_port,
             for metric, lcs__ in lcs_.items():
                 lcs[method][metric][cv_i] = lcs__.mean(0)
         if args.p_mode >= 0:
-            if local_rank == 0:
-                n_prototypes[cv_i] = net.module.prototype_class_identity.sum(0).cpu().numpy()
-            n_prototype = [net.module.prototype_class_identity.sum(0).cpu().numpy()]
+            n_prototypes_i = np.zeros((cv_fold, out_size))
+            n_prototypes_i[cv_i] = net.module.prototype_class_identity.sum(0).cpu().numpy()
+            n_prototype = n_prototypes_i[cv_i:cv_i + 1]
+            n_prototypes.append(n_prototypes_i)
         else:
             n_prototype = None
         process_iad(iads_test, y[I_test], model_name=model_name_i)
@@ -307,13 +310,10 @@ def main():
     # 5. CV training
     args.p_mode = P_MODE_LIST[args.model_name]
     manager = mp.Manager()
-    f_x = mp.Array('f', np.zeros(y.shape))
-    f_x = np.frombuffer(f_x.get_obj(), dtype=np.float32)
-    lcs = dict(manager.dict({}))
-    n_proto_shape = (cv_fold, len(set(y.argmax(0))))
-    n_prototypes = mp.Array('f', np.zeros(np.prod(n_proto_shape)))
-    n_prototypes = np.frombuffer(n_prototypes.get_obj(), dtype=np.float32).reshape(n_prototypes)
-    iads = dict(manager.dict({}))
+    f_x = manager.list([])
+    lcs = manager.dict({})
+    n_prototypes = manager.list([])
+    iads = manager.dict({})
     for i, (I_train, I_test) in enumerate(cv.split(x, y.argmax(1))):
         seed_everything(args.seed)
         print(f">>>>>>>> CV = {i + 1}:")
@@ -328,7 +328,11 @@ def main():
         toc = time.time()
         print(f"Elapsed time is {toc - tic:.6f} seconds.")
         print()
-
+    f_x = np.sum(np.array(list(f_x)), axis=0)
+    lcs = dict(lcs)
+    n_prototypes = np.sum(np.array(list(n_prototypes)), axis=0)
+    iads = dict(iads)
+    
     # 6. overall evaluation
     print(f">>>>>>>> {cv_fold}-fold CV Results:")
     print_results("Test", f_x, y, lcs, n_prototypes, iads, splits)
