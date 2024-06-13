@@ -9,6 +9,7 @@ import torch.distributed as dist
 import torch.multiprocessing as mp
 import torchio as tio
 import numpy as np
+mp.set_sharing_strategy('file_system')
 
 from torch.utils.data import DataLoader
 from sklearn.model_selection import RepeatedStratifiedKFold
