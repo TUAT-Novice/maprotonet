@@ -231,7 +231,7 @@ def train_one_cv(local_rank, world_size, master_port,
                 iads[method] = {m: np.zeros((cv_fold, 2)) for m in ['IA', 'ID', 'IAD']}
             for metric, iads__ in iads_.items():
                 iads[method][metric][cv_i] = iads__
-        print_results("Test", f_x[I_test], y[I_test], lcs_test, n_prototype, iads_test)
+        print_results("Test", f_x_i[I_test], y[I_test], lcs_test, n_prototype, iads_test)
         if args.save_model and args.load_model is None:
             model_dir = './results/models/'
             if not os.path.exists(model_dir):
