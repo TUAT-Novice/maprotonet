@@ -19,6 +19,11 @@ def seed_everything(seed):
     torch.cuda.manual_seed_all(seed)
 
 
+def print_main(t, local_rank):
+    if local_rank == 0:
+        print(t)
+
+
 def find_high_activation_crop(activation_map, percentile=95):
     threshold = np.percentile(activation_map, percentile)
     mask = np.ones(activation_map.shape)
