@@ -237,7 +237,6 @@ def train_one_fold(
                 os.makedirs(model_dir)
             torch.save(net.module.state_dict(), f'{model_dir}{model_name_i}.pt')
     # 10. ddp destroy
-    dist.barrier()
     dist.destroy_process_group()
     torch.cuda.empty_cache()
 
