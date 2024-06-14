@@ -26,33 +26,30 @@ from utils.utils import seed_everything, get_hashes, print_param, print_results,
 
 P_MODE_LIST = {'cnn': -1, 'protopnet': 0, 'xprotonet': 1, 'mprotonet': 2, 'maprotonet': 3}
 
-
-def train_one_cv(local_rank, world_size, master_port,
-        args, x, y, I_train, I_test, cv_i, transform_train, transform_test,
+def train_one_fold(
+        local_rank, args, x, y, I_train, I_test, cv_i, transform_train, transform_test,
         f_x,  lcs, n_prototypes, iads, opts_hash, cv_fold=5
 ):
     # 1. ddp initialize
-    os.environ['MASTER_ADDR'] = 'localhost'
-    os.environ['MASTER_PORT'] = str(master_port)
-    os.environ['LOCAL_RANK'] = str(local_rank)
-    os.environ['WORLD_SIZE'] = str(world_size)
-    os.environ['RANK'] = str(local_rank)
-    dist.init_process_group(backend='nccl' if dist.is_nccl_available() else 'gloo', rank=local_rank, world_size=world_size)
+    os.environ['LOCAL_RANK'] = os.environ['RANK'] = str(local_rank)
+    dist.init_process_group(backend='nccl' if dist.is_nccl_available() else 'gloo', init_method='env://')
     torch.cuda.set_device(local_rank)
     # 2. dataset
     dataset_train = tio.SubjectsDataset(list(x[I_train]), transform=transform_train)
     sampler_train = torch.utils.data.DistributedSampler(dataset_train)
     loader_train = DataLoader(dataset_train, batch_size=args.batch_size, num_workers=args.n_workers,
-                              sampler=sampler_train, pin_memory=True, drop_last=True)
-    dataset_test = tio.SubjectsDataset(list(x[I_test]), transform=transform_test)
-    sampler_test = torch.utils.data.SequentialSampler(dataset_test)
-    loader_test = DataLoader(dataset_test, batch_size=args.batch_size // 2, num_workers=args.n_workers,
-                             sampler=sampler_test, pin_memory=True)
-    if args.p_mode >= 0:
-        dataset_push = tio.SubjectsDataset(list(x[I_train]), transform=transform_test)
-        sampler_push = torch.utils.data.SequentialSampler(dataset_push)
-        loader_push = DataLoader(dataset_push, batch_size=args.batch_size // 2, num_workers=args.n_workers,
-                                 sampler=sampler_push, pin_memory=True)
+                              sampler=sampler_train, pin_memory=False, drop_last=True)
+    
+    if local_rank == 0:
+        dataset_test = tio.SubjectsDataset(list(x[I_test]), transform=transform_test)
+        sampler_test = torch.utils.data.SequentialSampler(dataset_test)
+        loader_test = DataLoader(dataset_test, batch_size=args.batch_size // 2, num_workers=args.n_workers,
+                sampler=sampler_test, pin_memory=False)
+        if args.p_mode >= 0:
+            dataset_push = tio.SubjectsDataset(list(x[I_train]), transform=transform_test)
+            sampler_push = torch.utils.data.SequentialSampler(dataset_push)
+            loader_push = DataLoader(dataset_push, batch_size=args.batch_size // 2, num_workers=args.n_workers,
+                    sampler=sampler_push, pin_memory=False)
     # 3. model
     in_size = (4,) + dataset_train[0]['t1']['data'].shape[1:]
     out_size = dataset_train[0]['label'].shape[0]
@@ -81,20 +78,24 @@ def train_one_cv(local_rank, world_size, master_port,
     # num of params, flops
     input_x = torch.randn(in_size).unsqueeze(0).to(local_rank)
     net.flops, net.params = profile(net, inputs=(input_x,))
-    print_param(net, show_each=False)
-    print(f"Model: {model_name_i}\n{str(net)}")
-    print(f"Hyper-parameters = {args}")
-    print(f"Number of Epoch = {args.epoch}")
+    if local_rank == 0:
+        print_param(net, show_each=False)
+        print(f"Model: {model_name_i}\n{str(net)}")
+        print(f"Hyper-parameters = {args}")
+        print(f"Number of Epoch = {args.epoch}")
+    del input_x
     # model ddp
     net = torch.nn.SyncBatchNorm.convert_sync_batchnorm(net).to(local_rank)
     net = torch.nn.parallel.DistributedDataParallel(net, device_ids=[local_rank])
+    dist.barrier()
 
     # 4. saving path
     img_dir = f'./results/saved_imgs/{model_name_i}/'
-    if not os.path.exists(img_dir):
+    if local_rank == 0 and not os.path.exists(img_dir):
         os.makedirs(img_dir)
     prototype_img_filename_prefix = 'prototype-img'
     proto_bound_boxes_filename_prefix = 'bb'
+    dist.barrier()
 
     # 5. optimizer
     if args.p_mode >= 0:
@@ -195,7 +196,7 @@ def train_one_cv(local_rank, world_size, master_port,
                           stage=f'last_{j}', class_weight=class_weight)
 
     # 9. evaluation
-    del dataset_train, loader_train
+    del dataset_train, sampler_train, loader_train
     # push again for saving
     if local_rank == 0:
         push_prototypes(
@@ -207,13 +208,10 @@ def train_one_cv(local_rank, world_size, master_port,
             prototype_img_filename_prefix=prototype_img_filename_prefix,
             proto_bound_boxes_filename_prefix=proto_bound_boxes_filename_prefix
         )
-    if args.p_mode >= 0:
-        del loader_push
-    if local_rank == 0:
         f_x_i = np.zeros(y.shape)
         f_x_i[I_test], lcs_test, iads_test = test(net, loader_test, args, local_rank)
         f_x.append(f_x_i)
-        del dataset_test, loader_test
+        del dataset_test, sampler_test, loader_test, dataset_push, sampler_push, loader_push
         for method, lcs_ in lcs_test.items():
             if not lcs.get(method):
                 lcs[method] = {f'({a}, Th=0.5) {m}': np.zeros((cv_fold, 4))
@@ -242,6 +240,7 @@ def train_one_cv(local_rank, world_size, master_port,
     # 10. ddp destroy
     dist.barrier()
     dist.destroy_process_group()
+    torch.cuda.empty_cache()
 
 
 def main():
@@ -261,6 +260,9 @@ def main():
     # structural
     args.prototype_shape = ast.literal_eval(args.prototype_shape)
     args.coefs = ast.literal_eval(args.coefs)
+    # others
+    assert args.batch_size % int(os.environ['n_gpus']) == 0, 'Your batch size can not be divided by the number of GPUs'
+    args.batch_size = args.batch_size // int(os.environ['n_gpus'])
     if isinstance(args.coefs, list):
         args.coefs = args.coefs[0]
     print(args)
@@ -320,13 +322,18 @@ def main():
         seed_everything(args.seed)
         print(f">>>>>>>> CV = {i + 1}:")
         splits[I_test] = i
-        mp.spawn(
-            train_one_cv,
-            args=(int(os.environ['n_gpus']), int(os.environ['base_port']) + i, args, x, y, I_train, I_test, i,
-                  transform_train, transform_test, f_x, lcs, n_prototypes, iads, opts_hash),
-            nprocs=int(os.environ['n_gpus']),
-            join=True,
-        )
+        os.environ['MASTER_ADDR'] = 'localhost'
+        os.environ['MASTER_PORT'] = os.environ['base_port']
+        os.environ['WORLD_SIZE'] = os.environ['n_gpus']
+        if int(os.environ['n_gpus']) == 1:
+            train_one_fold(0, args, x, y, I_train, I_test, i, transform_train, transform_test, f_x, lcs, n_prototypes, iads, opts_hash)
+        else:
+            mp.spawn(
+                train_one_fold,
+                args=(args, x, y, I_train, I_test, i, transform_train, transform_test, f_x, lcs, n_prototypes, iads, opts_hash),
+                nprocs=int(os.environ['n_gpus']),
+                join=True,
+            )
         toc = time.time()
         print(f"Elapsed time is {toc - tic:.6f} seconds.")
         print()
