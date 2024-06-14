@@ -19,9 +19,9 @@ def seed_everything(seed):
     torch.cuda.manual_seed_all(seed)
 
 
-def print_main(t, local_rank=0):
+def print_main(t, local_rank=0, **kwargs):
     if local_rank == 0:
-        print(t)
+        print(t, **kwargs)
 
 
 def find_high_activation_crop(activation_map, percentile=95):
