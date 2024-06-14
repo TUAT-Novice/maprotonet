@@ -60,6 +60,8 @@ To train the model, please set the `data_path` and `model` parameters in the scr
 
 When you run the `run.sh` script, it will execute the downstream scripts located in `./scripts/run_XXX.sh` based on the `model=XXX` parameter you provide. If you want to further change the architecture of the models, please modify the scripts in that directory.
 
+For the multi-gpu
+
 ### Visualization
 If you want to classify and attribute for 3D brain tumor MRI with your well-trained models, please check and follow the codes in `visualization.ipynb`.
 
