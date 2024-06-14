@@ -22,9 +22,10 @@ from data.load import load_data, preprocess
 from utils.arguments import parse_arguments
 from utils.metrics import process_iad
 from utils.push import push_prototypes
-from utils.utils import seed_everything, get_hashes, print_param, print_results, output_results, save_cvs
+from utils.utils import seed_everything, print_main, get_hashes, print_param, print_results, output_results, save_cvs
 
 P_MODE_LIST = {'cnn': -1, 'protopnet': 0, 'xprotonet': 1, 'mprotonet': 2, 'maprotonet': 3}
+
 
 def train_one_fold(
         local_rank, args, x, y, I_train, I_test, cv_i, transform_train, transform_test,
@@ -71,7 +72,7 @@ def train_one_fold(
             model_name_i = f'{args.load_model[args.load_model.find(args.model_name):]}_cv{i}'
             model_path_i = f'{args.load_model}_cv{i}.pt'
         net.load_state_dict(torch.load(model_path_i))
-        print(f"Load Model {args.model_name} from {model_path_i}")
+        print_main(f"Load Model {args.model_name} from {model_path_i}", local_rank)
     else:
         model_name_i = f'{args.model_name}_{opts_hash}_cv{cv_i}'
     net = net.to(local_rank)
@@ -165,11 +166,11 @@ def train_one_fold(
     # 8. training
     scaler = torch.cuda.amp.GradScaler(enabled=args.use_amp)
     if args.load_model is None:
-        print("Epoch =", end='', flush=True)
+        print_main("Epoch =", local_rank, end='', flush=True)
         for e in range(args.epoch):
-            print(f" {e + 1}", end='', flush=True)
+            print_main(f" {e + 1}", local_rank, end='', flush=True)
             if args.lr_opt != 'Off':
-                print(f"(lr={scheduler.get_last_lr()[0]:g})", end='', flush=True)
+                print_main(f"(lr={scheduler.get_last_lr()[0]:g})", local_rank, end='', flush=True)
             # stage 1
             train(net, loader_train, optimizer, criterion, scaler, args, local_rank, stage='joint', class_weight=class_weight)
             if args.lr_opt != 'Off':
@@ -189,7 +190,7 @@ def train_one_fold(
                         proto_bound_boxes_filename_prefix=proto_bound_boxes_filename_prefix
                     )
                 dist.barrier()
-                dist.broadcast(net.module.prototype_vectors, src=0)
+                dist.broadcast(net.module.prototype_vectors.clone().detach(), src=0)
                 # stage 3
                 for j in range(10):
                     train(net, loader_train, optimizer_last_layer, criterion, scaler, args, local_rank,
