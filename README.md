@@ -36,7 +36,8 @@ The directories of this repository are established as below:
 * **requirements.txt**  -- environment configurations
 * **run.sh** -- shell script to run our experiments
 * **train.py**  -- source code for training and evaluation
-* **tumor.py**  -- source code for the main function of our experiments
+* **tumor_cls_\*.py**  -- source code for the main function of our experiments
+* **train_one_fold.py**  -- source code for training one cross-validation fold
 * **visualization.ipynb**  -- code for visualization with a well-trained MAProtoNet
 
 ## Environments and Dependencies <a id="Environment"></a>
