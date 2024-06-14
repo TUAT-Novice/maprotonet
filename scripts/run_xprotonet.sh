@@ -14,7 +14,7 @@ n_res_block=2
 
 if  [ ! -n "$load_model" ]
   then # for train
-    python ./tumor_cls.py \
+    python $script \
       -d $data_path \
       -m $model \
       -n $epoch \
@@ -29,7 +29,7 @@ if  [ ! -n "$load_model" ]
       --save-model 1 \
       -s $seed
   else  # for eval
-    python ./tumor_cls.py \
+    python $script \
       --load-model $load_model \
       -d $data_path \
       -m $model \
