@@ -66,6 +66,5 @@ def parse_arguments():
     parser.add_argument('--load-model', type=str, default=None, help="whether to load the model")
     parser.add_argument('--save-model', type=int, choices={0, 1}, default=0, help="whether to save the best model")
     parser.add_argument('-s', '--seed', type=int, default=0, help="random seed")
-    parser.add_argument('--local-rank', type=int, default=0, help='local rank for ddp settings')
 
     return parser.parse_args()
