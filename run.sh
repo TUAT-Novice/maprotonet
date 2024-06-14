@@ -1,6 +1,6 @@
 # for ddp
 export n_gpus=1
-export script=tumor_cls_launch.py
+export script=tumor_cls_launch.py # or use tumor_cls_spawn.py
 export base_port=12344
 
 # path to the name_mapping.csv file of BraTS dataset
