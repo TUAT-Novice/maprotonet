@@ -3,8 +3,8 @@ import time
 import ast
 import warnings
 import torch
-import torchio as tio
 import numpy as np
+import torchio as tio
 
 from torch.utils.data import DataLoader
 from sklearn.model_selection import RepeatedStratifiedKFold
