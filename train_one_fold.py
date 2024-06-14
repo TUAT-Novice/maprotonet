@@ -1,15 +1,15 @@
 import os
-import torch
-import torch.distributed as dist
-import torchio as tio
-import torch.optim as optim
-import torch.nn as nn
-import numpy as np
 import argparse
 import warnings
+import torch
+import numpy as np
+import torchio as tio
+import torch.nn as nn
+import torch.distributed as dist
+import torch.optim as optim
 
-from torch.utils.data import DataLoader
 from thop import profile
+from torch.utils.data import DataLoader
 
 from utils.utils import seed_everything, print_main, print_param, print_results
 from utils.metrics import process_iad
@@ -19,7 +19,6 @@ from train import FocalLoss, train, test
 
 
 def train_one_fold(cv_i, opts_hash, local_rank=None, cv_fold=5):
-
     # 1. load temporary data and settings
     raw_data = torch.load('data.pt')
     x, y, transform_train, transform_test, args = \
@@ -42,7 +41,6 @@ def train_one_fold(cv_i, opts_hash, local_rank=None, cv_fold=5):
     sampler_train = torch.utils.data.DistributedSampler(dataset_train)
     loader_train = DataLoader(dataset_train, batch_size=args.batch_size, num_workers=args.n_workers,
                               sampler=sampler_train, pin_memory=False, drop_last=True)
-
     if local_rank == 0:
         dataset_test = tio.SubjectsDataset(list(x[I_test]), transform=transform_test)
         sampler_test = torch.utils.data.SequentialSampler(dataset_test)
