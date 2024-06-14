@@ -1,7 +1,6 @@
 # for ddp
-export nproc_per_node=1
-export nnodes=1
-export node_rank=0
+export n_gpus=1
+export base_port=12344
 
 # path to the name_mapping.csv file of BraTS dataset
 export data_path=path_to_the_name_mapping_file
