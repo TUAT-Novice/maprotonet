@@ -105,7 +105,7 @@ def push_prototypes(data_loader,  # pytorch dataloader (must be unnormalized in 
       
     log("\tExecuting push...", end='', flush=True)
     prototype_update = global_min_fmap_patches.reshape(prototype_shape)
-    ppnet.prototype_vectors.data.copy_(torch.tensor(prototype_update).to(args.device))
+    ppnet.prototype_vectors.data.copy_(torch.tensor(prototype_update).to(0))
     end = time.time()
     log(f"\tpush time: {end - start:.6f}s")
 
@@ -136,7 +136,7 @@ def update_prototypes_on_batch(search_batch_input,
         search_batch = search_batch_input
 
     with torch.no_grad():
-        search_batch = search_batch.to(args.device, non_blocking=True)
+        search_batch = search_batch.to(0, non_blocking=True)
         # this computation currently is not parallelized
         if ppnet.p_mode >= 1:
             # for XProtoNet, MProtoNet and MAProtoNet
