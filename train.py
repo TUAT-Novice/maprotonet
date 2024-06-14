@@ -10,6 +10,7 @@ from functools import partial
 from data.load import load_subjs_batch
 from utils.interpret import attr_methods, attribute
 from utils.metrics import lc, iad
+from utils.utils import print_main
 
 
 class FocalLoss(nn.modules.loss._WeightedLoss):
@@ -47,10 +48,10 @@ def train(net, data_loader, optimizer, criterion, scaler, args, local_rank, **kw
 
 
 def train_ppnet(net, data_loader, optimizer, criterion, scaler, args, local_rank, use_l1_mask=True, stage=None,
-                log=print, class_weight=None):
+                log=print_main, class_weight=None):
     if stage in ['warm_up', 'joint']:
-        log()
-    log(f"\t{stage}", end='', flush=True)
+        log('', local_rank)
+    log(f"\t{stage}", local_rank, end='', flush=True)
     start = time.time()
     n_examples, n_correct, n_batches = 0, 0, 0
     total_loss, total_cls, total_clst, total_sep, total_avg_sep, total_l1 = 0, 0, 0, 0, 0, 0
@@ -152,7 +153,8 @@ def train_ppnet(net, data_loader, optimizer, criterion, scaler, args, local_rank
         f" L1: {total_l1 / n_batches:.4f},"
         f" map: {total_map / n_batches:.4f},"
         f" OC: {total_oc / n_batches:.4f},"
-        f" p_avg_pdist: {p_avg_pdist:.4f}")
+        f" p_avg_pdist: {p_avg_pdist:.4f}",
+        local_rank)
 
 
 def test(net, data_loader, args, local_rank):
@@ -173,7 +175,7 @@ def test(net, data_loader, args, local_rank):
             f_x.append(F.softmax(net(data), dim=1).cpu().numpy())
             for method_i in methods:
                 method = attr_methods[method_i]
-                print(f" {method}:", end='', flush=True)
+                print_main(f" {method}:", local_rank, end='', flush=True)
                 if not lcs.get(method):
                     lcs[method] = {f'({a}, Th=0.5) {m}': []
                                    for a in ['WT'] for m in ['AP', 'DSC']}
@@ -190,8 +192,8 @@ def test(net, data_loader, args, local_rank):
                 iads[method]['ID'].append(
                     iad(net, data, attr, n_intervals=50, quantile=True, addition=False))
                 toc = time.time()
-                print(f" {toc - tic:.6f}s,", end='', flush=True)
-            print(" Finished.")
+                print_main(f" {toc - tic:.6f}s,", local_rank, end='', flush=True)
+            print_main(" Finished.", local_rank,)
     for method, lcs_ in lcs.items():
         for metric, lcs__ in lcs_.items():
             lcs[method][metric] = np.vstack(lcs__)
