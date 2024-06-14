@@ -184,7 +184,6 @@ def train_one_fold(
                         loader_push,
                         net.module,
                         args,
-                        local_rank,
                         root_dir_for_saving_prototypes=None,
                         prototype_img_filename_prefix=prototype_img_filename_prefix,
                         proto_bound_boxes_filename_prefix=proto_bound_boxes_filename_prefix
@@ -204,7 +203,6 @@ def train_one_fold(
             loader_push,
             net.module,
             args,
-            local_rank,
             root_dir_for_saving_prototypes=img_dir,
             prototype_img_filename_prefix=prototype_img_filename_prefix,
             proto_bound_boxes_filename_prefix=proto_bound_boxes_filename_prefix
