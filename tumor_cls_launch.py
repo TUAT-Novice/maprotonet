@@ -107,18 +107,17 @@ def main():
         os.remove(f)
 
     # 6. overall evaluation
-    if args.local_rank == 0:
-        print(f">>>>>>>> {cv_fold}-fold CV Results:")
-        print_results("Test", f_x, y, lcs, n_prototypes, iads, splits)
-        output_results(args.data_name, args, f_x, y, lcs, n_prototypes, iads, splits)
-        cv_dir = './results/cvs/'
-        if not os.path.exists(cv_dir):
-            os.makedirs(cv_dir)
-        save_cvs(cv_dir, args, f_x, y, lcs, iads, splits)
-        print("Finished.")
-        toc = time.time()
-        print(f"Elapsed time is {toc - tic:.6f} seconds.")
-        print()
+    print(f">>>>>>>> {cv_fold}-fold CV Results:")
+    print_results("Test", f_x, y, lcs, n_prototypes, iads, splits)
+    output_results(args.data_name, args, f_x, y, lcs, n_prototypes, iads, splits)
+    cv_dir = './results/cvs/'
+    if not os.path.exists(cv_dir):
+        os.makedirs(cv_dir)
+    save_cvs(cv_dir, args, f_x, y, lcs, iads, splits)
+    print("Finished.")
+    toc = time.time()
+    print(f"Elapsed time is {toc - tic:.6f} seconds.")
+    print()
 
 
 if __name__ == "__main__":
