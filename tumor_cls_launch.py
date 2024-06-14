@@ -21,8 +21,6 @@ def main():
     tic = time.time()
     # 1. parse arguments
     args = parse_arguments()
-    args.device_id = args.gpus = args.local_rank
-    args.device = torch.device('cuda:' + str(args.device_id))
     # str
     args.model_name = args.model_name.lower()
     args.data_name = \
