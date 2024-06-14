@@ -19,7 +19,7 @@ def seed_everything(seed):
     torch.cuda.manual_seed_all(seed)
 
 
-def print_main(t, local_rank):
+def print_main(t, local_rank=0):
     if local_rank == 0:
         print(t)
 
