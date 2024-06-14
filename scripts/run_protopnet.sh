@@ -15,7 +15,7 @@ topk_p=1
 
 if  [ ! -n "$load_model" ]
   then # for train
-    python -m torch.distributed.launch --nproc_per_node $nproc_per_node --nnodes $nnodes --node_rank $node_rank ./tumor_cls.py \
+    python ./tumor_cls.py \
       -d $data_path \
       -m $model \
       -n $epoch \
@@ -31,7 +31,7 @@ if  [ ! -n "$load_model" ]
       --save-model 1 \
       -s $seed
   else  # for eval
-    python -m torch.distributed.launch --nproc_per_node $nproc_per_node --nnodes $nnodes --node_rank $node_rank ./tumor_cls.py \
+    python ./tumor_cls.py \
       --load-model $load_model \
       -d $data_path \
       -m $model \
