@@ -28,15 +28,15 @@ class FocalLoss(nn.modules.loss._WeightedLoss):
                           ignore_index=self.ignore_index, reduction=self.reduction)
 
 
-def train(net, data_loader, optimizer, criterion, scaler, args, **kwargs):
+def train(net, data_loader, optimizer, criterion, scaler, args, local_rank, **kwargs):
     assert args.use_amp is not None and scaler is not None and criterion is not None
     net.train()
     if args.p_mode >= 0:
-        return train_ppnet(net, data_loader, optimizer, criterion, scaler, args, **kwargs)
+        return train_ppnet(net, data_loader, optimizer, criterion, scaler, args, local_rank, **kwargs)
     for b, subjs_batch in enumerate(data_loader):
         data, target, _ = load_subjs_batch(subjs_batch)
-        data = data.to(args.device, non_blocking=True)
-        target = target.argmax(1).to(args.device, non_blocking=True)
+        data = data.to(local_rank, non_blocking=True)
+        target = target.argmax(1).to(local_rank, non_blocking=True)
         with torch.autocast(device_type='cuda', dtype=torch.float16, enabled=args.use_amp):
             output = net(data)
             loss = criterion(output, target)
@@ -46,8 +46,8 @@ def train(net, data_loader, optimizer, criterion, scaler, args, **kwargs):
         scaler.update()
 
 
-def train_ppnet(net, data_loader, optimizer, criterion, scaler, args, use_l1_mask=True, stage=None, log=print,
-                class_weight=None):
+def train_ppnet(net, data_loader, optimizer, criterion, scaler, args, local_rank, use_l1_mask=True, stage=None,
+                log=print, class_weight=None):
     if stage in ['warm_up', 'joint']:
         log()
     log(f"\t{stage}", end='', flush=True)
@@ -57,8 +57,8 @@ def train_ppnet(net, data_loader, optimizer, criterion, scaler, args, use_l1_mas
     total_map, total_oc = 0, 0
     for b, subjs_batch in enumerate(data_loader):
         data, target, _ = load_subjs_batch(subjs_batch)
-        data = data.to(args.device, non_blocking=True)
-        target = target.argmax(1).to(args.device, non_blocking=True)
+        data = data.to(local_rank, non_blocking=True)
+        target = target.argmax(1).to(local_rank, non_blocking=True)
         with torch.autocast(device_type='cuda', dtype=torch.float16, enabled=args.use_amp):
             if args.p_mode >= 1:
                 output, min_distances, h, p_map = net(data)
@@ -70,8 +70,8 @@ def train_ppnet(net, data_loader, optimizer, criterion, scaler, args, use_l1_mas
             total_cls += loss_cls.item()
             if stage in ['warm_up', 'joint']:
                 # Calculate cluster loss
-                max_dist = torch.prod(torch.tensor(net.module.prototype_shape[1:])).to(args.device)
-                target_weight = class_weight.to(args.device)[target]
+                max_dist = torch.prod(torch.tensor(net.module.prototype_shape[1:])).to(local_rank)
+                target_weight = class_weight.to(local_rank)[target]
                 target_weight = target_weight / target_weight.sum()
                 prototypes_correct = net.module.prototype_class_identity[:, target].mT
                 inv_distances_correct = ((max_dist - min_distances) * prototypes_correct).amax(1)
@@ -155,7 +155,7 @@ def train_ppnet(net, data_loader, optimizer, criterion, scaler, args, use_l1_mas
         f" p_avg_pdist: {p_avg_pdist:.4f}")
 
 
-def test(net, data_loader, args):
+def test(net, data_loader, args, local_rank):
     net.eval()
     f_x, lcs, iads = [], {}, {}
     if args.attr is not None:
@@ -167,9 +167,9 @@ def test(net, data_loader, args):
     with torch.no_grad():
         for b, subjs_batch in enumerate(data_loader):
             data, target, seg_map = load_subjs_batch(subjs_batch)
-            data = data.to(args.device, non_blocking=True)
-            target = target.argmax(1).to(args.device, non_blocking=True)
-            seg_map = seg_map.to(args.device, non_blocking=True)
+            data = data.to(local_rank, non_blocking=True)
+            target = target.argmax(1).to(local_rank, non_blocking=True)
+            seg_map = seg_map.to(local_rank, non_blocking=True)
             f_x.append(F.softmax(net(data), dim=1).cpu().numpy())
             for method_i in methods:
                 method = attr_methods[method_i]
