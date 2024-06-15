@@ -203,14 +203,15 @@ def train_one_fold(cv_i, opts_hash, local_rank=None, cv_fold=5):
     else:
         # Only push for saving the index when you want to visualize the results with our checkpoint. 
         # NOET that the pushing results will be different from the original pushing (push before 10 epochs last layer traing) !!!
-        push_prototypes(
-            loader_push,
-            net.module,
-            args,
-            root_dir_for_saving_prototypes=img_dir if len(os.listdir(img_dir)) < 2 else None,
-            prototype_img_filename_prefix=prototype_img_filename_prefix,
-            proto_bound_boxes_filename_prefix=proto_bound_boxes_filename_prefix
-        )
+        # push_prototypes(
+        #     loader_push,
+        #     net.module,
+        #     args,
+        #     root_dir_for_saving_prototypes=img_dir if len(os.listdir(img_dir)) < 2 else None,
+        #     prototype_img_filename_prefix=prototype_img_filename_prefix,
+        #     proto_bound_boxes_filename_prefix=proto_bound_boxes_filename_prefix
+        # )
+        pass
 
     # 10. evaluation
     del dataset_train, sampler_train, loader_train, dataset_push, sampler_push, loader_push
