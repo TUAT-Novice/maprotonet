@@ -202,19 +202,11 @@ def train_one_fold(cv_i, opts_hash, local_rank=None, cv_fold=5):
                           stage=f'last_{j}', class_weight=class_weight)
 
     # 10. evaluation
-    del dataset_train, sampler_train, loader_train
+    del dataset_train, sampler_train, loader_train, dataset_push, sampler_push, loader_push
     # push again for saving
     if local_rank == 0:
-        push_prototypes(
-            loader_push,
-            net.module,
-            args,
-            root_dir_for_saving_prototypes=img_dir,
-            prototype_img_filename_prefix=prototype_img_filename_prefix,
-            proto_bound_boxes_filename_prefix=proto_bound_boxes_filename_prefix
-        )
         f_x[I_test], lcs_test, iads_test = test(net, loader_test, args, local_rank)
-        del dataset_test, sampler_test, loader_test, dataset_push, sampler_push, loader_push
+        del dataset_test, sampler_test, loader_test
         for method, lcs_ in lcs_test.items():
             if not lcs.get(method):
                 lcs[method] = {f'({a}, Th=0.5) {m}': np.zeros((cv_fold, 4))
