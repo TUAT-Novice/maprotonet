@@ -28,9 +28,13 @@ def train_one_fold(cv_i, opts_hash, local_rank=None, cv_fold=5):
     metrics = torch.load('metrics.pt')
     f_x, lcs, n_prototypes, iads = metrics['f_x'], metrics['lcs'], metrics['n_prototypes'], metrics['iads']
     # settings
-    seed_everything(args.seed)
-    local_rank = int(os.environ['LOCAL_RANK']) if local_rank is None else local_rank
+    torch.set_num_threads(args.n_threads)
     warnings.filterwarnings('ignore', message="The epoch parameter in `scheduler.step\(\)` was not")
+    seed_everything(args.seed)
+    if not args.use_da:
+        torch.backends.cudnn.benchmark = True
+        torch.backends.cudnn.deterministic = False
+    local_rank = int(os.environ['LOCAL_RANK']) if local_rank is None else local_rank
 
     # 2. ddp initialize
     dist.init_process_group(backend='nccl' if dist.is_nccl_available() else 'gloo')
