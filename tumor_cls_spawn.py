@@ -211,12 +211,12 @@ def train_one_fold(
         pass
         
     # 9. evaluation
-    del dataset_train, sampler_train, loader_train, dataset_push, sampler_push, loader_push
+    del dataset_train, sampler_train, loader_train
     if local_rank == 0:
         f_x_i = np.zeros(y.shape)
         f_x_i[I_test], lcs_test, iads_test = test(net, loader_test, args, local_rank)
         f_x.append(f_x_i)
-        del dataset_test, sampler_test, loader_test
+        del dataset_test, sampler_test, loader_test, dataset_push, sampler_push, loader_push
         for method, lcs_ in lcs_test.items():
             if not lcs.get(method):
                 lcs[method] = {f'({a}, Th=0.5) {m}': np.zeros((cv_fold, 4))
