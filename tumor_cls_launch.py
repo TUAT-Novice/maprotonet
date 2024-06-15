@@ -50,10 +50,6 @@ def main():
     opts_hash = get_hashes(args)  # for saving dir
     # seed
     seed_everything(args.seed)
-    # deterministic
-    if not args.use_da:
-        torch.backends.cudnn.benchmark = True
-        torch.backends.cudnn.deterministic = False
 
     # 3. data
     # preload
