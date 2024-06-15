@@ -39,18 +39,18 @@ def train_one_fold(
     dataset_train = tio.SubjectsDataset(list(x[I_train]), transform=transform_train)
     sampler_train = torch.utils.data.DistributedSampler(dataset_train)
     loader_train = DataLoader(dataset_train, batch_size=args.batch_size, num_workers=args.n_workers,
-                              sampler=sampler_train, pin_memory=False, drop_last=True)
+                              sampler=sampler_train, pin_memory=True, drop_last=True)
     
     if local_rank == 0:
         dataset_test = tio.SubjectsDataset(list(x[I_test]), transform=transform_test)
         sampler_test = torch.utils.data.SequentialSampler(dataset_test)
         loader_test = DataLoader(dataset_test, batch_size=args.batch_size // 2, num_workers=args.n_workers,
-                sampler=sampler_test, pin_memory=False)
+                sampler=sampler_test, pin_memory=True)
         if args.p_mode >= 0:
             dataset_push = tio.SubjectsDataset(list(x[I_train]), transform=transform_test)
             sampler_push = torch.utils.data.SequentialSampler(dataset_push)
             loader_push = DataLoader(dataset_push, batch_size=args.batch_size // 2, num_workers=args.n_workers,
-                    sampler=sampler_push, pin_memory=False)
+                    sampler=sampler_push, pin_memory=True)
     # 3. model
     in_size = (4,) + dataset_train[0]['t1']['data'].shape[1:]
     out_size = dataset_train[0]['label'].shape[0]
