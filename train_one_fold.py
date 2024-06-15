@@ -201,7 +201,7 @@ def train_one_fold(cv_i, opts_hash, local_rank=None, cv_fold=5):
                     train(net, loader_train, optimizer_last_layer, criterion, scaler, args, local_rank,
                           stage=f'last_{j}', class_weight=class_weight)
     else:
-        # Only push for saving the index when you want to visualize the results with our checkpoint. 
+        # Only push for saving the index when you want to visualize the results with our checkpoints. 
         # NOET that the pushing results will be different from the original pushing (push before 10 epochs last layer traing) !!!
         # push_prototypes(
         #     loader_push,
