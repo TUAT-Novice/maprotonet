@@ -190,6 +190,8 @@ def train_one_fold(
                     )
                 dist.barrier()
                 dist.broadcast(net.module.prototype_vectors, src=0)
+                dist.barrier()
+                torch.cuda.synchronize()
                 # stage 3
                 for j in range(10):
                     train(net, loader_train, optimizer_last_layer, criterion, scaler, args, local_rank,
