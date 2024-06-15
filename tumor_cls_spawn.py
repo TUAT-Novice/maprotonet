@@ -189,7 +189,7 @@ def train_one_fold(
                         proto_bound_boxes_filename_prefix=proto_bound_boxes_filename_prefix
                     )
                 dist.barrier()
-                dist.broadcast(net.module.prototype_vectors.clone().detach(), src=0)
+                dist.broadcast(net.module.prototype_vectors, src=0)
                 # stage 3
                 for j in range(10):
                     train(net, loader_train, optimizer_last_layer, criterion, scaler, args, local_rank,
