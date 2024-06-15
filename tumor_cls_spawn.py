@@ -195,22 +195,24 @@ def train_one_fold(
                     train(net, loader_train, optimizer_last_layer, criterion, scaler, args, local_rank,
                           stage=f'last_{j}', class_weight=class_weight)
     else:
-        push_prototypes(
-            loader_push,
-            net.module,
-            args,
-            root_dir_for_saving_prototypes=img_dir,
-            prototype_img_filename_prefix=prototype_img_filename_prefix,
-            proto_bound_boxes_filename_prefix=proto_bound_boxes_filename_prefix
-        )
+        # Only push for saving the index when you want to visualize the results with our checkpoints. 
+        # NOET that the pushing results will be different from the original pushing (push before 10 epochs last layer traing) !!!
+        # push_prototypes(
+        #     loader_push,
+        #     net.module,
+        #     args,
+        #     root_dir_for_saving_prototypes=img_dir if len(os.listdir(img_dir)) < 2 else None,
+        #     prototype_img_filename_prefix=prototype_img_filename_prefix,
+        #     proto_bound_boxes_filename_prefix=proto_bound_boxes_filename_prefix
+        # )
+        pass
     # 9. evaluation
-    del dataset_train, sampler_train, loader_train
+    del dataset_train, sampler_train, loader_train, dataset_push, sampler_push, loader_push
     if local_rank == 0:
-
         f_x_i = np.zeros(y.shape)
         f_x_i[I_test], lcs_test, iads_test = test(net, loader_test, args, local_rank)
         f_x.append(f_x_i)
-        del dataset_test, sampler_test, loader_test, dataset_push, sampler_push, loader_push
+        del dataset_test, sampler_test, loader_test
         for method, lcs_ in lcs_test.items():
             if not lcs.get(method):
                 lcs[method] = {f'({a}, Th=0.5) {m}': np.zeros((cv_fold, 4))
