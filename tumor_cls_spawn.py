@@ -194,11 +194,7 @@ def train_one_fold(
                 for j in range(10):
                     train(net, loader_train, optimizer_last_layer, criterion, scaler, args, local_rank,
                           stage=f'last_{j}', class_weight=class_weight)
-
-    # 9. evaluation
-    del dataset_train, sampler_train, loader_train
-    # push again for saving
-    if local_rank == 0:
+    else:
         push_prototypes(
             loader_push,
             net.module,
@@ -207,6 +203,10 @@ def train_one_fold(
             prototype_img_filename_prefix=prototype_img_filename_prefix,
             proto_bound_boxes_filename_prefix=proto_bound_boxes_filename_prefix
         )
+    # 9. evaluation
+    del dataset_train, sampler_train, loader_train
+    if local_rank == 0:
+
         f_x_i = np.zeros(y.shape)
         f_x_i[I_test], lcs_test, iads_test = test(net, loader_test, args, local_rank)
         f_x.append(f_x_i)
