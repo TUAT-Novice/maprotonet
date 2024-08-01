@@ -213,7 +213,7 @@ class ProtoNets(nn.Module):
         )
 
         # 3. mapping module M(x)
-        # for ProtoPNet, not mapping module
+        # for ProtoPNet, no mapping module
         if self.p_mode == 0:
             # ProtoPNet
             p_size_w = compute_proto_layer_rf_info_v2(
