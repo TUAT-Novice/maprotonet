@@ -195,7 +195,7 @@ def train_one_fold(cv_i, opts_hash, local_rank=None, cv_fold=5):
                         proto_bound_boxes_filename_prefix=proto_bound_boxes_filename_prefix
                     )
                 dist.barrier()
-                dist.broadcast(net.module.prototype_vectors, src=0)
+                dist.broadcast(net.module.prototype_vectors.clone(), src=0)
                 dist.barrier()
                 torch.cuda.synchronize()
                 # stage 3
