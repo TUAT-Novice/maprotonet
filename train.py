@@ -90,7 +90,7 @@ def train_ppnet(net, data_loader, optimizer, criterion, scaler, args, local_rank
                 avg_separation = (avg_separation * target_weight).sum()
                 total_avg_sep += avg_separation.item()
                 # Calculate mapping loss or multi-scale mapping loss
-                if args.p_mode >= 3:
+                if args.p_mode >= 1:
                     ri = torch.randint(2, (1,)).item()
                     f_affine = partial(
                         F.interpolate, scale_factor=(0.875, 0.75)[ri],
